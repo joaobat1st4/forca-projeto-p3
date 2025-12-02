@@ -1,3 +1,5 @@
+package forca.model;
+
 public class Jogador {
     private String nome;
     private int acertosGeral;

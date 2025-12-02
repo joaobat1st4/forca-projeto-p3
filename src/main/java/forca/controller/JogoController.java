@@ -1,4 +1,4 @@
-package com.example.projeto;
+package forca.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
