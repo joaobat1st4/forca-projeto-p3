@@ -1,3 +1,5 @@
+package forca.model;
+
 public class Jogadores {
 
     private Jogador jogador1;

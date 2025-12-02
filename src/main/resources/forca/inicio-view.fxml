@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0"
+      xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="forca.controller.InicioController">
+    <padding>
+        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+    </padding>
+
+    <Label text="JOGO DA FORCA" textFill="#2c3e50">
+        <font>
+            <Font name="System Bold" size="28.0" />
+        </font>
+    </Label>
+
+    <Label text="Digite os nomes para começar:" textFill="#7f8c8d">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Label>
+
+    <TextField fx:id="inputNome1" promptText="Nome do Jogador 1" maxWidth="300.0" />
+    <TextField fx:id="inputNome2" promptText="Nome do Jogador 2" maxWidth="300.0" />
+
+    <Label text="Escolha uma Categoria:" textFill="#7f8c8d">
+        <padding><Insets top="10.0" /></padding>
+    </Label>
+
+    <Button onAction="#onBotaoFrutas" text="FRUTAS" minWidth="150.0" />
+    <Button onAction="#onBotaoAnimais" text="ANIMAIS" minWidth="150.0" />
+    <Button onAction="#onBotaoPaises" text="PAÍSES" minWidth="150.0" />
+    <Button onAction="#onBotaoObjetos" text="OBJETOS" minWidth="150.0" />
+
+    <Button onAction="#onBotaoAleatorio" text="🎲 ALEATÓRIO" style="-fx-background-color: #e67e22; -fx-text-fill: white;" minWidth="150.0">
+        <VBox.margin>
+            <Insets top="10.0" />
+        </VBox.margin>
+    </Button>
+
+</VBox>

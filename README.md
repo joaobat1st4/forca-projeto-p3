@@ -22,7 +22,7 @@ O projeto respeita estritamente os requisitos não funcionais definidos:
 * **Banco de Palavras:** Organização por categorias (ex: Frutas, Países, Animais).
 * **Interface Visual:**
     * Exibição das letras já tentadas.
-    * Palavra oculta representada por traços.
+    * model.forca.Palavra oculta representada por traços.
     * Desenho progressivo do boneco da forca a cada erro.
 * **Placar:** Contagem de erros e acertos individualizada.
 * **Tratamento de Exceções:** Validação de entradas inválidas e leitura segura de arquivos.
@@ -30,8 +30,8 @@ O projeto respeita estritamente os requisitos não funcionais definidos:
 ### 2. Estrutura de Classes (Obrigatória)
 A arquitetura do projeto separa as classes de domínio das classes de visualização e inicialização:
 * `Jogada`: Responsável pela lógica da tentativa atual.
-* `Palavra`: Gerencia a palavra secreta e as categorias.
-* `Jogadores`: Gerencia os nomes e pontuações.
+* `model.forca.Palavra`: Gerencia a palavra secreta e as categorias.
+* `model.forca.Jogadores`: Gerencia os nomes e pontuações.
 * `Controlador`: Faz a ponte entre a interface (FXML) e as regras de negócio.
 
 ## 🚀 Funcionalidades Bônus (Opcionais)

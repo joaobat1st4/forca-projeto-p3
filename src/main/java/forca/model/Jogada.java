@@ -1,3 +1,5 @@
+package forca.model;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -132,5 +134,9 @@ public class Jogada {
             sb.append(c).append(" ");
         }
         return sb.toString();
+    }
+
+    public Jogadores getJogadores() {
+        return jogadores;
     }
 }
