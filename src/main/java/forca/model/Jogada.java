@@ -135,4 +135,8 @@ public class Jogada {
         }
         return sb.toString();
     }
+
+    public Jogadores getJogadores() {
+        return jogadores;
+    }
 }
