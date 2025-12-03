@@ -1,58 +1,114 @@
-# ⚔️ Jogo da Forca - Medieval Edition 🛡️
+# 📚 Projeto: Jogo da Forca (Programação III)
 
-> **Disciplina:** Programação III  
-> [cite_start]**Instituição:** Instituto Federal de Goiás (IFG) - Campus Luziânia [cite: 4]  
-> [cite_start]**Professor:** Lucas de Almeida Ribeiro [cite: 6]  
-> [cite_start]**Data:** Outubro/2025 [cite: 7]
-
----
-
-## 📜 Sobre o Projeto
-Este projeto consiste na implementação de um **Jogo da Forca** interativo, desenvolvido em linguagem **Java** com interface gráfica **JavaFX**.
-
-[cite_start]O sistema foi projetado estritamente sob a arquitetura **MVC (Model-View-Controller)** [cite: 33][cite_start], focando na lógica de **Multijogador Local**, onde dois jogadores competem em turnos alternados para resolver palavras distintas[cite: 11]. O projeto apresenta um **tema visual medieval** consistente e aplica conceitos avançados de Orientação a Objetos.
-
-## 🎯 Objetivos e Regras
-O objetivo é adivinhar a palavra secreta sorteada através de tentativas de letras ou do chute da palavra completa.
-* [cite_start]A cada erro, uma parte do corpo do boneco é desenhada na forca[cite: 9].
-* O jogador perde a rodada se o boneco for completado (6 erros).
-* [cite_start]O jogador vence se descobrir a palavra antes do enforcamento[cite: 10].
+**Instituto Federal de Goiás (IFG) - Campus Luziânia** **Curso:** Bacharelado em Sistemas de Informação  
+**Professor:** Lucas de Almeida Ribeiro  
+**Data de Referência:** 14 de outubro de 2025  
 
 ---
 
-## 📋 Requisitos Atendidos (Conformidade com o Projeto)
-
-### 1. Requisitos Não Funcionais
-* [cite_start]✅ **Linguagem:** Java (JDK 22)[cite: 16].
-* [cite_start]✅ **Interface Gráfica:** JavaFX (Versão 22)[cite: 17].
-* [cite_start]✅ **Tema:** Aparência "Medieval" bem definida, com cenários e assets personalizados[cite: 18].
-* [cite_start]✅ **Jogabilidade:** Sistema exclusivo para 2 jogadores[cite: 19].
-* [cite_start]✅ **Arquitetura:** Separação estrita de classes de domínio (`Jogada`, `Palavra`, `Jogadores`) das classes de controle (`Controlador`) e visualização (`FXML`)[cite: 20].
-
-### 2. Requisitos Funcionais
-* [cite_start]✅ **Cadastro:** Tela inicial para inserção dos nomes dos jogadores[cite: 22].
-* [cite_start]✅ **Turnos:** Sistema de gerenciamento que alterna a vez e o foco entre os jogadores[cite: 23].
-* [cite_start]✅ **Categorias:** Leitura de arquivo `palavras.txt` organizando o banco por categorias (Frutas, Animais, Países, Objetos)[cite: 24].
-* [cite_start]✅ **Interface Visual:** Exibição dinâmica da palavra oculta, letras já tentadas e evolução do boneco[cite: 25].
-* [cite_start]✅ **Placar:** Contagem individual de erros na rodada[cite: 27].
-* [cite_start]✅ **Tratamento de Exceções:** Validação robusta para entradas inválidas (letras repetidas, campos vazios) e leitura de arquivos[cite: 28].
+## 🎯 Objetivo do Trabalho
+Construir um **Jogo da Forca** interativo para **dois jogadores (multijogador local)**. 
+O objetivo do jogo é adivinhar uma palavra secreta através de tentativas de letras. A cada erro, partes de um boneco são desenhadas na forca. O jogador ganha se adivinhar a palavra antes do boneco ser completamente enforcado.
 
 ---
 
-## 🏗️ Estrutura do Projeto (MVC)
+## 🛠️ Requisitos Não Funcionais (Técnicos)
+*Estas regras definem AS FERRAMENTAS que devem ser usadas. O não cumprimento pode afetar a nota.*
 
-O código foi organizado para demonstrar domínio sobre a separação de responsabilidades:
+1.  **Linguagem:** O código DEVE ser escrito estritamente em **Java**.
+2.  **Interface Gráfica:** O framework visual DEVE ser o **JavaFX** (preferencialmente versão 22).
+3.  **Visual:** O sistema deve ter uma aparência e tema bem definidos.
+4.  **Modo de Jogo:** O sistema deve possibilitar partidas para **2 jogadores**.
+5.  **Arquitetura:** Obrigatório separar as classes de domínio/lógica das classes de interface e inicialização. As seguintes classes DEVEM ser criadas:
+    * `Jogada`
+    * `Palavra`
+    * `Jogadores`
+    * `Controlador`
+
+---
+
+## 📋 Requisitos Funcionais (O que o sistema deve fazer)
+*Funcionalidades obrigatórias que precisam estar rodando na apresentação.*
+
+1.  **Cadastro Inicial:** No início do jogo, deve ser possível inserir o **nome dos jogadores**.
+2.  **Sistema de Turnos:** O jogo deve gerenciar turnos **alternados** entre os jogadores (competindo para resolver palavras diferentes).
+3.  **Banco de Palavras:** As palavras devem ser organizadas por **categorias** (ex: Frutas, Países, Animais, etc.).
+4.  **Interface Visual Completa:**
+    * Mostrar as **letras já tentadas**.
+    * Mostrar a **palavra oculta** representada por traços.
+    * Desenhar o **boneco da forca** progressivamente em diferentes estágios de erro.
+5.  **Placar:** Deve haver um contador de **erros e acertos** individual por jogador.
+6.  **Tratamento de Erros:** Implementar tratamento de exceções (`try-catch`) para:
+    * Entradas inválidas do usuário.
+    * Arquivos não encontrados (leitura do banco de palavras).
+
+---
+
+## 🎓 Critérios de Avaliação (Arguição)
+*Pontos que o professor irá verificar durante a apresentação oral.*
+
+* **Nota Individual:** A nota será atribuída individualmente, dependendo do domínio demonstrado sobre o código.
+* **Apresentação Obrigatória:** A nota só será atribuída mediante apresentação do software rodando.
+* **Conceitos Exigidos:** É necessário demonstrar no código o uso de:
+    * Tratamento de Exceções (`Exceptions`).
+    * Manipulação de Arquivos (Leitura/Escrita).
+    * Annotations (ex: `@FXML`, `@Override`).
+    * Manipulação de Strings.
+    * Programação Orientada a Objetos (POO).
+    * JavaFX e Arquitetura MVC.
+
+---
+
+## ⭐ Funcionalidades Bônus (Extras)
+*Implementações opcionais que podem valorizar a nota.*
+
+* [ ] **Single Player:** Modo contra o computador com níveis de dificuldade.
+* [ ] **Dicas:** Sistema de dicas limitadas durante a partida.
+* [ ] **Animações:** Efeitos visuais na interface.
+* [ ] **Temas:** Possibilidade do usuário selecionar diferentes temas visuais (skins/cores).
+
+---
+
+## 🚀 Guia de Implementação (Sugestão baseada no PDF)
+
+### 1. Model (Lógica)
+* **`Palavra.java`**: Ler o arquivo de texto, separar por categoria, sortear palavra.
+* **`Jogadores.java`**: Guardar nomes, controlar de quem é a vez, contar pontos.
+* **`Jogada.java`**: Verificar se a letra existe na palavra, atualizar estado do boneco.
+
+### 2. View (Interface)
+* Arquivos `.fxml` (Tela de Início e Tela de Jogo).
+* Uso de CSS para o "Tema bem definido".
+
+### 3. Controller (Conexão)
+* **`Controlador.java`**: Receber os cliques dos botões, chamar a `Jogada`, atualizar a tela (boneco/texto).
+
+## 🏗️ Estrutura de Arquivos (MVC)
+*Organização recomendada para atender ao requisito de separação de classes.*
 
 ```text
-src/main/java/forca
-├── 📦 controller
-│   ├── InicioController.java   // Controla a tela de login e seleção de categorias
-│   └── JogoController.java     // Gerencia a partida, turnos e atualizações visuais
-├── 📦 model
-│   ├── Jogada.java             // Lógica principal: valida letras, verifica vitória/derrota
-│   ├── Jogador.java            // Dados do jogador (nome, erros)
-│   ├── Jogadores.java          // Gerencia a dupla e define de quem é a vez
-│   ├── Palavra.java            // Leitura de arquivo e sorteio aleatório
-│   ├── LetraJaTentadaException.java // Exceção personalizada
-│   └── NomeInvalidoException.java   // Exceção personalizada
-└── ForcaApp.java               // Classe principal (Inicialização JavaFX)
+Projeto-Forca/
+├── src/
+│   └── main/
+│       ├── java/forca/
+│       │   ├── 📦 controller
+│       │   │   ├── InicioController.java   // Controla o menu inicial
+│       │   │   └── JogoController.java     // Controla a partida e o boneco
+│       │   ├── 📦 model
+│       │   │   ├── Jogada.java             // Lógica de acerto/erro
+│       │   │   ├── Jogador.java            // Dados (nome, erros)
+│       │   │   ├── Jogadores.java          // Gerencia a dupla e o turno
+│       │   │   ├── Palavra.java            // Sorteio e leitura do arquivo
+│       │   │   ├── LetraJaTentadaException.java
+│       │   │   └── NomeInvalidoException.java
+│       │   └── ForcaApp.java               // Classe principal (Start)
+│       └── resources/forca/
+│           ├── 📂 images                   // Imagens (Fundo, Boneco, Forca)
+│           ├── inicio-view.fxml            // Tela de Login
+│           └── jogo-view.fxml              // Tela do Jogo
+├── palavras.txt                            // Banco de palavras (Na raiz)
+├── pom.xml                                 // Dependências Maven
+└── README.md
+
+---
+*Este documento foi gerado com base nas especificações do Projeto de Programação III - IFG Luziânia.*
