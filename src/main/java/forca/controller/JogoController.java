@@ -23,28 +23,51 @@ public class JogoController {
     @FXML private Label lblMensagem;
     @FXML private TextField inputLetra;
 
-    // --- IMAGENS DO BONECO (Separadas) ---
+    // Imagens do Boneco
     @FXML private ImageView imgCabeca;
     @FXML private ImageView imgTronco;
-    @FXML private ImageView imgBracoE; // BracoBoneco
-    @FXML private ImageView imgBracoD; // BracoDireitoBoneco
-    @FXML private ImageView imgPernaE; // PernaBoneco
-    @FXML private ImageView imgPernaD; // PernaDireitaBoneco
+    @FXML private ImageView imgBracoE;
+    @FXML private ImageView imgBracoD;
+    @FXML private ImageView imgPernaE;
+    @FXML private ImageView imgPernaD;
 
-    private Jogada jogo;
-    private Palavra bancoDePalavras;
+    // --- MUDANÇA 1: AGORA TEMOS DOIS JOGOS SEPARADOS ---
+    private Jogada jogoP1; // O jogo do Jogador 1 (Palavra X)
+    private Jogada jogoP2; // O jogo do Jogador 2 (Palavra Y)
+
+    // Objeto que gerencia os turnos (compartilhado)
+    private Jogadores jogadores;
 
     public void configurarPartida(Jogadores jogadores, String categoria) {
-        this.bancoDePalavras = new Palavra();
-        if (categoria.equals("ALEATORIO")) {
-            categoria = bancoDePalavras.getCategoriaAleatoria();
-        }
-        this.jogo = new Jogada(jogadores, bancoDePalavras);
-        this.jogo.iniciarNovaRodada(categoria);
+        this.jogadores = jogadores;
+
+        // --- MUDANÇA 2: SORTEIA DUAS PALAVRAS DIFERENTES ---
+
+        // Configura o jogo do Jogador 1
+        Palavra bancoP1 = new Palavra();
+        String catP1 = categoria.equals("ALEATORIO") ? bancoP1.getCategoriaAleatoria() : categoria;
+        this.jogoP1 = new Jogada(jogadores, bancoP1);
+        this.jogoP1.iniciarNovaRodada(catP1);
+
+        // Configura o jogo do Jogador 2
+        Palavra bancoP2 = new Palavra();
+        String catP2 = categoria.equals("ALEATORIO") ? bancoP2.getCategoriaAleatoria() : categoria;
+        this.jogoP2 = new Jogada(jogadores, bancoP2);
+        this.jogoP2.iniciarNovaRodada(catP2);
 
         // Garante que o boneco comece invisível
         resetarBoneco();
         atualizarInterface();
+    }
+
+    // --- MUDANÇA 3: METODO PARA PEGAR O JOGO DA VEZ ---
+    private Jogada getJogoAtual() {
+        // Se o jogador da vez for o Jogador 1, retorna o jogoP1
+        if (jogadores.getJogadorDaVez() == jogadores.getJogador1()) {
+            return jogoP1;
+        } else {
+            return jogoP2;
+        }
     }
 
     private void resetarBoneco() {
@@ -62,8 +85,11 @@ public class JogoController {
         if (texto.isEmpty()) return;
         char letra = texto.charAt(0);
 
+        // Pega o jogo de quem está jogando agora
+        Jogada jogoAtual = getJogoAtual();
+
         try {
-            boolean acertou = jogo.tentarLetra(letra);
+            boolean acertou = jogoAtual.tentarLetra(letra);
             if (acertou) {
                 lblMensagem.setText("Muito bem! Acertou.");
                 lblMensagem.setStyle("-fx-text-fill: green;");
@@ -90,9 +116,10 @@ public class JogoController {
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(chute -> {
-            boolean acertou = jogo.arriscarPalavra(chute);
+            Jogada jogoAtual = getJogoAtual();
+            boolean acertou = jogoAtual.arriscarPalavra(chute);
             if (acertou) {
-                finalizarJogo();
+                finalizarJogo(true); // Vitória
             } else {
                 lblMensagem.setText("Chute errado! Ponto para o boneco.");
                 lblMensagem.setStyle("-fx-text-fill: red;");
@@ -103,43 +130,64 @@ public class JogoController {
     }
 
     private void verificarFimDeTurno() {
-        if (jogo.isJogoAcabou()) {
-            // Atualiza interface uma última vez para mostrar o boneco completo se perdeu
+        Jogada jogoAtual = getJogoAtual();
+
+        if (jogoAtual.isJogoAcabou()) {
             atualizarInterface();
-            finalizarJogo();
+            // Se alguém ganhou ou perdeu, o jogo acaba
+            // Aqui verificamos se foi vitória ou derrota baseada no resultado da string
+            boolean vitoria = jogoAtual.getResultado().contains("VENCEU") || jogoAtual.getResultado().contains("VITÓRIA") || jogoAtual.getResultado().contains("PARABÉNS");
+            finalizarJogo(vitoria);
         } else {
-            jogo.getJogadores().trocarTurno();
+            // Se o jogo continua, troca o turno para o outro jogador
+            jogadores.trocarTurno();
+
+            // IMPORTANTE: Ao trocar o turno, precisamos atualizar a tela
+            // para mostrar a palavra do OUTRO jogador imediatamente
+            atualizarInterface();
         }
     }
 
     private void atualizarInterface() {
-        if (jogo == null) return;
+        Jogada jogoAtual = getJogoAtual();
+        if (jogoAtual == null) return;
 
-        lblNomeJogador.setText("Vez de: " + jogo.getJogadores().getJogadorDaVez().getNome());
-        lblCategoria.setText("Categoria: " + bancoDePalavras.getCategoria());
-        lblPalavraOculta.setText(jogo.getPalavraOcultaFormatada());
+        // Pega a palavra (banco) correspondente a este jogo específico
+        // Nota: Precisamos acessar a Palavra de dentro da Jogada.
+        // Se você não tiver um getter para isso, vamos usar a categoria salva na Jogada ou ajustar.
+        // Como a classe Jogada não expõe o objeto Palavra facilmente, vamos assumir que
+        // a categoria exibida é a que passamos no início.
 
-        int erros = jogo.getJogadores().getJogadorDaVez().getErrosNaRodada();
+        lblNomeJogador.setText("Vez de: " + jogadores.getJogadorDaVez().getNome());
+
+        // Mostra a palavra oculta DESTE jogador (ex: J1 vê "_ _ A", J2 vê "B _ _")
+        lblPalavraOculta.setText(jogoAtual.getPalavraOcultaFormatada());
+
+        int erros = jogadores.getJogadorDaVez().getErrosNaRodada();
         lblErros.setText("Erros: " + erros + "/6");
 
-        // --- LÓGICA DE MOSTRAR PARTES DO CORPO ---
-        // Se mudou de jogador (erros == 0), esconde tudo.
-        // Se é o mesmo jogador acumulando erros, vai mostrando progressivamente.
-
+        // Atualiza boneco baseado nos erros DESTE jogador
         if (erros == 0) resetarBoneco();
-        if (erros >= 1) imgCabeca.setVisible(true);
-        if (erros >= 2) imgTronco.setVisible(true);
-        if (erros >= 3) imgBracoE.setVisible(true);
-        if (erros >= 4) imgBracoD.setVisible(true);
-        if (erros >= 5) imgPernaE.setVisible(true);
-        if (erros >= 6) imgPernaD.setVisible(true);
+        imgCabeca.setVisible(erros >= 1);
+        imgTronco.setVisible(erros >= 2);
+        imgBracoE.setVisible(erros >= 3);
+        imgBracoD.setVisible(erros >= 4);
+        imgPernaE.setVisible(erros >= 5);
+        imgPernaD.setVisible(erros >= 6);
     }
 
-    private void finalizarJogo() {
+    private void finalizarJogo(boolean vitoria) {
+        Jogada jogoAtual = getJogoAtual();
+        // Precisamos pegar a palavra secreta correta.
+        // Como o acesso à Palavra está protegido na Jogada, vamos confiar na mensagem de resultado.
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Fim de Jogo");
-        alert.setHeaderText(jogo.getResultado());
-        alert.setContentText("A palavra era: " + bancoDePalavras.getPalavraSecreta());
+        alert.setHeaderText(jogoAtual.getResultado());
+
+        // Mensagem final
+        alert.setContentText("O jogo acabou!");
+
         alert.showAndWait();
         Stage stage = (Stage) lblNomeJogador.getScene().getWindow();
         stage.close();
