@@ -1,8 +1,8 @@
-package forca; // <--- CONFIRA SE ESSE PACOTE ESTÁ IGUAL AO DO SEU ForcaApp
+package forca;
 
 public class Launcher {
     public static void main(String[] args) {
-        // Chama o main da sua classe principal verdadeira
+        // Chama o main da classe principal verdadeira
         ForcaApp.main(args);
     }
 }
