@@ -1,61 +1,58 @@
-# 🎮 Jogo da Forca - Programação III
+# ⚔️ Jogo da Forca - Medieval Edition 🛡️
 
-> Projeto desenvolvido como requisito avaliativo para a disciplina de Programação III no **Instituto Federal de Goiás (IFG) - Campus Luziânia**.
-
-## 📄 Sobre o Projeto
-Este projeto consiste na implementação de um **Jogo da Forca** interativo, desenvolvido em linguagem **Java**. O sistema foca na lógica de turnos alternados (Multijogador) e na aplicação de conceitos avançados de Orientação a Objetos e arquitetura de software.
-
-**Objetivo:** Adivinhar a palavra secreta através de tentativas de letras antes que o desenho do boneco na forca esteja completo.
-
-## 🛠️ Tecnologias e Ferramentas
-O projeto respeita estritamente os requisitos não funcionais definidos:
-* **Linguagem:** Java (JDK atualizado)
-* **Interface Gráfica:** JavaFX (Versão 22)
-* **Arquitetura:** MVC (Model-View-Controller)
-* **IDE Recomendada:** IntelliJ IDEA / Eclipse / VS Code
-
-## 📋 Requisitos do Sistema
-
-### 1. Funcionalidades Obrigatórias
-* **Multijogador Local:** Suporte para 2 jogadores competindo em turnos alternados.
-* **Cadastro:** Inserção dos nomes dos jogadores no início da partida.
-* **Banco de Palavras:** Organização por categorias (ex: Frutas, Países, Animais).
-* **Interface Visual:**
-    * Exibição das letras já tentadas.
-    * model.forca.Palavra oculta representada por traços.
-    * Desenho progressivo do boneco da forca a cada erro.
-* **Placar:** Contagem de erros e acertos individualizada.
-* **Tratamento de Exceções:** Validação de entradas inválidas e leitura segura de arquivos.
-
-### 2. Estrutura de Classes (Obrigatória)
-A arquitetura do projeto separa as classes de domínio das classes de visualização e inicialização:
-* `Jogada`: Responsável pela lógica da tentativa atual.
-* `model.forca.Palavra`: Gerencia a palavra secreta e as categorias.
-* `model.forca.Jogadores`: Gerencia os nomes e pontuações.
-* `Controlador`: Faz a ponte entre a interface (FXML) e as regras de negócio.
-
-## 🚀 Funcionalidades Bônus (Opcionais)
-* [ ] Modo Single Player (vs Computador) com níveis de dificuldade.
-* [ ] Sistema de dicas limitadas.
-* [ ] Animações e transições na interface.
-* [ ] Temas visuais selecionáveis pelo usuário.
-
-## 📦 Como Executar
-1.  **Clone o repositório:**
-    ```bash
-    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
-    ```
-2.  **Configuração:**
-    * Certifique-se de que as bibliotecas do **JavaFX** estão configuradas no `Module Path` da sua IDE.
-    * Adicione os argumentos da VM se necessário: `--module-path "C:\caminho\para\javafx-sdk-22\lib" --add-modules javafx.controls,javafx.fxml`
-3.  **Execução:**
-    * Execute a classe principal que estende `Application`.
-
-## 👨‍🏫 Informações da Disciplina
-* **Instituição:** Instituto Federal de Goiás - Campus Luziânia
-* **Professor:** Lucas de Almeida Ribeiro
-* **Curso:** Bacharelado em Sistemas de Informação
-* **Data:** Outubro/2025
+> **Disciplina:** Programação III  
+> [cite_start]**Instituição:** Instituto Federal de Goiás (IFG) - Campus Luziânia [cite: 4]  
+> [cite_start]**Professor:** Lucas de Almeida Ribeiro [cite: 6]  
+> [cite_start]**Data:** Outubro/2025 [cite: 7]
 
 ---
-*Desenvolvido por João Batista e Eduardo Inácio*
+
+## 📜 Sobre o Projeto
+Este projeto consiste na implementação de um **Jogo da Forca** interativo, desenvolvido em linguagem **Java** com interface gráfica **JavaFX**.
+
+[cite_start]O sistema foi projetado estritamente sob a arquitetura **MVC (Model-View-Controller)** [cite: 33][cite_start], focando na lógica de **Multijogador Local**, onde dois jogadores competem em turnos alternados para resolver palavras distintas[cite: 11]. O projeto apresenta um **tema visual medieval** consistente e aplica conceitos avançados de Orientação a Objetos.
+
+## 🎯 Objetivos e Regras
+O objetivo é adivinhar a palavra secreta sorteada através de tentativas de letras ou do chute da palavra completa.
+* [cite_start]A cada erro, uma parte do corpo do boneco é desenhada na forca[cite: 9].
+* O jogador perde a rodada se o boneco for completado (6 erros).
+* [cite_start]O jogador vence se descobrir a palavra antes do enforcamento[cite: 10].
+
+---
+
+## 📋 Requisitos Atendidos (Conformidade com o Projeto)
+
+### 1. Requisitos Não Funcionais
+* [cite_start]✅ **Linguagem:** Java (JDK 22)[cite: 16].
+* [cite_start]✅ **Interface Gráfica:** JavaFX (Versão 22)[cite: 17].
+* [cite_start]✅ **Tema:** Aparência "Medieval" bem definida, com cenários e assets personalizados[cite: 18].
+* [cite_start]✅ **Jogabilidade:** Sistema exclusivo para 2 jogadores[cite: 19].
+* [cite_start]✅ **Arquitetura:** Separação estrita de classes de domínio (`Jogada`, `Palavra`, `Jogadores`) das classes de controle (`Controlador`) e visualização (`FXML`)[cite: 20].
+
+### 2. Requisitos Funcionais
+* [cite_start]✅ **Cadastro:** Tela inicial para inserção dos nomes dos jogadores[cite: 22].
+* [cite_start]✅ **Turnos:** Sistema de gerenciamento que alterna a vez e o foco entre os jogadores[cite: 23].
+* [cite_start]✅ **Categorias:** Leitura de arquivo `palavras.txt` organizando o banco por categorias (Frutas, Animais, Países, Objetos)[cite: 24].
+* [cite_start]✅ **Interface Visual:** Exibição dinâmica da palavra oculta, letras já tentadas e evolução do boneco[cite: 25].
+* [cite_start]✅ **Placar:** Contagem individual de erros na rodada[cite: 27].
+* [cite_start]✅ **Tratamento de Exceções:** Validação robusta para entradas inválidas (letras repetidas, campos vazios) e leitura de arquivos[cite: 28].
+
+---
+
+## 🏗️ Estrutura do Projeto (MVC)
+
+O código foi organizado para demonstrar domínio sobre a separação de responsabilidades:
+
+```text
+src/main/java/forca
+├── 📦 controller
+│   ├── InicioController.java   // Controla a tela de login e seleção de categorias
+│   └── JogoController.java     // Gerencia a partida, turnos e atualizações visuais
+├── 📦 model
+│   ├── Jogada.java             // Lógica principal: valida letras, verifica vitória/derrota
+│   ├── Jogador.java            // Dados do jogador (nome, erros)
+│   ├── Jogadores.java          // Gerencia a dupla e define de quem é a vez
+│   ├── Palavra.java            // Leitura de arquivo e sorteio aleatório
+│   ├── LetraJaTentadaException.java // Exceção personalizada
+│   └── NomeInvalidoException.java   // Exceção personalizada
+└── ForcaApp.java               // Classe principal (Inicialização JavaFX)
