@@ -16,53 +16,86 @@ import java.util.Optional;
 
 public class JogoController {
 
+    // --- Label Central de Status ---
+    @FXML private Label lblStatusTurno;
+
+    // Elementos J1
     @FXML private Label lblNomeJogador;
     @FXML private Label lblCategoria;
     @FXML private Label lblPalavraOculta;
     @FXML private Label lblErros;
     @FXML private Label lblMensagem;
     @FXML private TextField inputLetra;
+    @FXML private Label lblTentativas;
 
-    // Imagens do Boneco
-    @FXML private ImageView imgCabeca;
-    @FXML private ImageView imgTronco;
-    @FXML private ImageView imgBracoE;
-    @FXML private ImageView imgBracoD;
-    @FXML private ImageView imgPernaE;
-    @FXML private ImageView imgPernaD;
+    // Boneco J1
+    @FXML private ImageView imgCabeca; @FXML private ImageView imgTronco;
+    @FXML private ImageView imgBracoE; @FXML private ImageView imgBracoD;
+    @FXML private ImageView imgPernaE; @FXML private ImageView imgPernaD;
 
-    // --- MUDANÇA 1: AGORA TEMOS DOIS JOGOS SEPARADOS ---
-    private Jogada jogoP1; // O jogo do Jogador 1 (Palavra X)
-    private Jogada jogoP2; // O jogo do Jogador 2 (Palavra Y)
+    // Elementos J2
+    @FXML private Label lblNomeJogador1;
+    @FXML private Label lblCategoria1;
+    @FXML private Label lblPalavraOculta1;
+    @FXML private Label lblErros1;
+    @FXML private Label lblMensagem2;
+    @FXML private TextField inputLetra2;
+    @FXML private Label lblTentativas1;
 
-    // Objeto que gerencia os turnos (compartilhado)
+    // Boneco J2
+    @FXML private ImageView imgCabeca1; @FXML private ImageView imgTronco1;
+    @FXML private ImageView imgBracoE1; @FXML private ImageView imgBracoD1;
+    @FXML private ImageView imgPernaE1; @FXML private ImageView imgPernaD1;
+
+    // Lógica
+    private Jogada jogoP1;
+    private Jogada jogoP2;
     private Jogadores jogadores;
+
+    // --- NOVO: MÉTODO QUE RODA AUTOMATICAMENTE AO ABRIR A TELA ---
+    @FXML
+    public void initialize() {
+        // Configura o limite de 1 caractere para os dois campos
+        configurarCampoLimitado(inputLetra);
+        configurarCampoLimitado(inputLetra2);
+    }
+
+    // Método auxiliar para limitar o texto a 1 letra
+    private void configurarCampoLimitado(TextField textField) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Se o novo texto tiver mais de 1 caractere (ex: digitou "AB")
+            if (newValue.length() > 1) {
+                // Mantém apenas o último caractere digitado (fica "B")
+                textField.setText(newValue.substring(newValue.length() - 1));
+            }
+        });
+    }
+    // -------------------------------------------------------------
 
     public void configurarPartida(Jogadores jogadores, String categoria) {
         this.jogadores = jogadores;
 
-        // --- MUDANÇA 2: SORTEIA DUAS PALAVRAS DIFERENTES ---
-
-        // Configura o jogo do Jogador 1
         Palavra bancoP1 = new Palavra();
         String catP1 = categoria.equals("ALEATORIO") ? bancoP1.getCategoriaAleatoria() : categoria;
         this.jogoP1 = new Jogada(jogadores, bancoP1);
         this.jogoP1.iniciarNovaRodada(catP1);
 
-        // Configura o jogo do Jogador 2
         Palavra bancoP2 = new Palavra();
         String catP2 = categoria.equals("ALEATORIO") ? bancoP2.getCategoriaAleatoria() : categoria;
         this.jogoP2 = new Jogada(jogadores, bancoP2);
         this.jogoP2.iniciarNovaRodada(catP2);
 
-        // Garante que o boneco comece invisível
-        resetarBoneco();
+        lblNomeJogador.setText("Jogador: " + jogadores.getJogador1().getNome());
+        lblNomeJogador1.setText("Jogador: " + jogadores.getJogador2().getNome());
+
+        lblCategoria.setText("Cat: " + catP1);
+        lblCategoria1.setText("Cat: " + catP2);
+
+        resetarBonecosVisuais();
         atualizarInterface();
     }
 
-    // --- MUDANÇA 3: METODO PARA PEGAR O JOGO DA VEZ ---
     private Jogada getJogoAtual() {
-        // Se o jogador da vez for o Jogador 1, retorna o jogoP1
         if (jogadores.getJogadorDaVez() == jogadores.getJogador1()) {
             return jogoP1;
         } else {
@@ -70,40 +103,47 @@ public class JogoController {
         }
     }
 
-    private void resetarBoneco() {
-        imgCabeca.setVisible(false);
-        imgTronco.setVisible(false);
-        imgBracoE.setVisible(false);
-        imgBracoD.setVisible(false);
-        imgPernaE.setVisible(false);
-        imgPernaD.setVisible(false);
+    private void resetarBonecosVisuais() {
+        imgCabeca.setVisible(false); imgTronco.setVisible(false);
+        imgBracoE.setVisible(false); imgBracoD.setVisible(false);
+        imgPernaE.setVisible(false); imgPernaD.setVisible(false);
+
+        imgCabeca1.setVisible(false); imgTronco1.setVisible(false);
+        imgBracoE1.setVisible(false); imgBracoD1.setVisible(false);
+        imgPernaE1.setVisible(false); imgPernaD1.setVisible(false);
     }
 
     @FXML
     public void onBotaoTentar() {
-        String texto = inputLetra.getText();
-        if (texto.isEmpty()) return;
-        char letra = texto.charAt(0);
+        boolean vezDoJ1 = (jogadores.getJogadorDaVez() == jogadores.getJogador1());
+        TextField inputAtivo = vezDoJ1 ? inputLetra : inputLetra2;
+        Label lblMsgAtiva = vezDoJ1 ? lblMensagem : lblMensagem2;
 
-        // Pega o jogo de quem está jogando agora
+        String texto = inputAtivo.getText();
+        if (texto.isEmpty()) return;
+
+        char letra = texto.charAt(0);
         Jogada jogoAtual = getJogoAtual();
 
         try {
             boolean acertou = jogoAtual.tentarLetra(letra);
             if (acertou) {
-                lblMensagem.setText("Muito bem! Acertou.");
-                lblMensagem.setStyle("-fx-text-fill: green;");
+                lblMsgAtiva.setText("Acertou!");
+                lblMsgAtiva.setStyle("-fx-text-fill: green;");
             } else {
-                lblMensagem.setText("Errou!");
-                lblMensagem.setStyle("-fx-text-fill: red;");
+                lblMsgAtiva.setText("Errou!");
+                lblMsgAtiva.setStyle("-fx-text-fill: red;");
             }
             verificarFimDeTurno();
+
         } catch (LetraJaTentadaException e) {
-            lblMensagem.setText(e.getMessage());
-            lblMensagem.setStyle("-fx-text-fill: orange;");
+            // --- AQUI ESTÁ A MENSAGEM QUE VOCÊ PEDIU ---
+            lblMsgAtiva.setText("Letra já tentada!");
+            lblMsgAtiva.setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
         }
-        inputLetra.clear();
-        inputLetra.requestFocus();
+
+        inputAtivo.clear();
+        // Não precisamos de requestFocus aqui pois o atualizarInterface faz isso
         atualizarInterface();
     }
 
@@ -111,18 +151,21 @@ public class JogoController {
     public void onBotaoChutar() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Chutar Palavra");
-        dialog.setHeaderText("Valendo tudo ou nada!");
+        dialog.setHeaderText("Quem chuta é: " + jogadores.getJogadorDaVez().getNome());
         dialog.setContentText("Qual é a palavra?");
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(chute -> {
             Jogada jogoAtual = getJogoAtual();
             boolean acertou = jogoAtual.arriscarPalavra(chute);
+
             if (acertou) {
-                finalizarJogo(true); // Vitória
+                finalizarJogo(true);
             } else {
-                lblMensagem.setText("Chute errado! Ponto para o boneco.");
-                lblMensagem.setStyle("-fx-text-fill: red;");
+                boolean vezDoJ1 = (jogadores.getJogadorDaVez() == jogadores.getJogador1());
+                Label lblMsgAtiva = vezDoJ1 ? lblMensagem : lblMensagem2;
+                lblMsgAtiva.setText("Chute errado!");
+                lblMsgAtiva.setStyle("-fx-text-fill: red;");
                 verificarFimDeTurno();
             }
             atualizarInterface();
@@ -131,43 +174,51 @@ public class JogoController {
 
     private void verificarFimDeTurno() {
         Jogada jogoAtual = getJogoAtual();
-
         if (jogoAtual.isJogoAcabou()) {
             atualizarInterface();
-            // Se alguém ganhou ou perdeu, o jogo acaba
-            // Aqui verificamos se foi vitória ou derrota baseada no resultado da string
-            boolean vitoria = jogoAtual.getResultado().contains("VENCEU") || jogoAtual.getResultado().contains("VITÓRIA") || jogoAtual.getResultado().contains("PARABÉNS");
+            boolean vitoria = jogoAtual.getResultado().toUpperCase().contains("VENCEDOR") ||
+                    jogoAtual.getResultado().toUpperCase().contains("PARABÉNS") ||
+                    jogoAtual.getResultado().toUpperCase().contains("ACERTOU");
             finalizarJogo(vitoria);
         } else {
-            // Se o jogo continua, troca o turno para o outro jogador
             jogadores.trocarTurno();
-
-            // IMPORTANTE: Ao trocar o turno, precisamos atualizar a tela
-            // para mostrar a palavra do OUTRO jogador imediatamente
-            atualizarInterface();
+            // A interface atualiza o foco depois
         }
     }
 
     private void atualizarInterface() {
-        Jogada jogoAtual = getJogoAtual();
-        if (jogoAtual == null) return;
+        String nomeVez = jogadores.getJogadorDaVez().getNome().toUpperCase();
+        lblStatusTurno.setText("VEZ DE: " + nomeVez);
 
-        // Pega a palavra (banco) correspondente a este jogo específico
-        // Nota: Precisamos acessar a Palavra de dentro da Jogada.
-        // Se você não tiver um getter para isso, vamos usar a categoria salva na Jogada ou ajustar.
-        // Como a classe Jogada não expõe o objeto Palavra facilmente, vamos assumir que
-        // a categoria exibida é a que passamos no início.
+        // Atualiza J1
+        lblPalavraOculta.setText(jogoP1.getPalavraOcultaFormatada());
+        int erros1 = jogadores.getJogador1().getErrosNaRodada();
+        lblErros.setText("Erros: " + erros1 + "/6");
+        lblTentativas.setText("Usadas: " + jogoP1.getLetrasTentadasFormatada());
+        atualizarBonecoJ1(erros1);
 
-        lblNomeJogador.setText("Vez de: " + jogadores.getJogadorDaVez().getNome());
+        // Atualiza J2
+        lblPalavraOculta1.setText(jogoP2.getPalavraOcultaFormatada());
+        int erros2 = jogadores.getJogador2().getErrosNaRodada();
+        lblErros1.setText("Erros: " + erros2 + "/6");
+        lblTentativas1.setText("Usadas: " + jogoP2.getLetrasTentadasFormatada());
+        atualizarBonecoJ2(erros2);
 
-        // Mostra a palavra oculta DESTE jogador (ex: J1 vê "_ _ A", J2 vê "B _ _")
-        lblPalavraOculta.setText(jogoAtual.getPalavraOcultaFormatada());
+        // Foco e Habilitação
+        boolean vezDoJ1 = (jogadores.getJogadorDaVez() == jogadores.getJogador1());
 
-        int erros = jogadores.getJogadorDaVez().getErrosNaRodada();
-        lblErros.setText("Erros: " + erros + "/6");
+        inputLetra.setDisable(!vezDoJ1);
+        inputLetra2.setDisable(vezDoJ1);
 
-        // Atualiza boneco baseado nos erros DESTE jogador
-        if (erros == 0) resetarBoneco();
+        if (vezDoJ1) {
+            inputLetra.requestFocus();
+        } else {
+            inputLetra2.requestFocus();
+        }
+    }
+
+    private void atualizarBonecoJ1(int erros) {
+        if(erros == 0) return;
         imgCabeca.setVisible(erros >= 1);
         imgTronco.setVisible(erros >= 2);
         imgBracoE.setVisible(erros >= 3);
@@ -176,18 +227,22 @@ public class JogoController {
         imgPernaD.setVisible(erros >= 6);
     }
 
+    private void atualizarBonecoJ2(int erros) {
+        if(erros == 0) return;
+        imgCabeca1.setVisible(erros >= 1);
+        imgTronco1.setVisible(erros >= 2);
+        imgBracoE1.setVisible(erros >= 3);
+        imgBracoD1.setVisible(erros >= 4);
+        imgPernaE1.setVisible(erros >= 5);
+        imgPernaD1.setVisible(erros >= 6);
+    }
+
     private void finalizarJogo(boolean vitoria) {
         Jogada jogoAtual = getJogoAtual();
-        // Precisamos pegar a palavra secreta correta.
-        // Como o acesso à Palavra está protegido na Jogada, vamos confiar na mensagem de resultado.
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Fim de Jogo");
         alert.setHeaderText(jogoAtual.getResultado());
-
-        // Mensagem final
         alert.setContentText("O jogo acabou!");
-
         alert.showAndWait();
         Stage stage = (Stage) lblNomeJogador.getScene().getWindow();
         stage.close();

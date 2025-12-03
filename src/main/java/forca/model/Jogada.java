@@ -2,6 +2,9 @@ package forca.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Jogada {
 
@@ -71,6 +74,19 @@ public class Jogada {
         }
 
         return acertou;
+    }
+
+    // Mostra letras já tentadas ao jogador
+    public String getLetrasTentadasFormatada() {
+        if (letrasTentadas.isEmpty()) {
+            return "Nenhuma";
+        }
+        // Cria uma lista para poder ordenar alfabeticamente
+        List<Character> lista = new ArrayList<>(letrasTentadas);
+        Collections.sort(lista);
+
+        // Retorna algo como "[A, B, X, Z]"
+        return lista.toString();
     }
 
     // Tenta chutar a palavra completa (Novo Recurso)
