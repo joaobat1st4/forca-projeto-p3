@@ -2,82 +2,96 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="768.0" prefWidth="1366.0"
-      style="-fx-background-image: url('/forca/images/medieval-town.jpeg'); -fx-background-size: cover; -fx-background-position: center;"
-      xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="forca.controller.InicioController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           prefHeight="768.0" prefWidth="1366.0"
+           xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="forca.controller.InicioController">
 
-    <padding>
-        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-    </padding>
+    <children>
 
-    <VBox alignment="CENTER" maxWidth="500.0" spacing="15.0" style="-fx-background-color: rgba(0, 0, 0, 0.75); -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
+        <Pane style="-fx-background-image: url('/forca/images/medieval-town.jpeg'); -fx-background-size: cover; -fx-background-position: center;" />
 
-        <padding>
-            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-        </padding>
+        <Pane style="-fx-background-color: rgba(0, 0, 0, 0.7);" />
 
-        <children>
+        <VBox alignment="CENTER" spacing="20.0">
+            <padding>
+                <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+            </padding>
+
             <Label text="JOGO DA FORCA" textFill="#ffcc00">
                 <font>
-                    <Font name="System Bold" size="36.0" />
+                    <Font name="System Bold" size="48.0" />
                 </font>
                 <effect>
-                    <DropShadow color="BLACK" height="15.0" radius="7.0" width="15.0" />
+                    <DropShadow color="BLACK" height="20.0" radius="9.5" width="20.0" />
                 </effect>
             </Label>
 
-            <Label text="Digite os nomes para começar:" textFill="WHITE">
+            <CheckBox fx:id="chkModoSingle" text="Modo 1 Jogador (Single Player)" textFill="#00ffcc">
                 <font>
-                    <Font size="16.0" />
+                    <Font name="System Bold" size="16.0" />
                 </font>
+                <effect><DropShadow /></effect>
                 <VBox.margin>
-                    <Insets top="10.0" />
+                    <Insets bottom="5.0" top="20.0" />
                 </VBox.margin>
+            </CheckBox>
+
+            <Label text="Digite os nomes:" textFill="#e0e0e0">
+                <font>
+                    <Font size="18.0" />
+                </font>
+                <effect><DropShadow /></effect>
             </Label>
 
-            <TextField fx:id="inputNome1" alignment="CENTER" maxWidth="350.0" prefHeight="40.0" promptText="Nome do Jogador 1" style="-fx-background-radius: 5; -fx-font-size: 14;" />
-            <TextField fx:id="inputNome2" alignment="CENTER" maxWidth="350.0" prefHeight="40.0" promptText="Nome do Jogador 2" style="-fx-background-radius: 5; -fx-font-size: 14;" />
+            <TextField fx:id="inputNome1" alignment="CENTER" maxWidth="400.0" prefHeight="45.0" promptText="Nome do Jogador 1" style="-fx-background-radius: 10; -fx-font-size: 16;">
+                <effect><DropShadow color="#00000080" /></effect>
+            </TextField>
+
+            <TextField fx:id="inputNome2" alignment="CENTER" maxWidth="400.0" prefHeight="45.0" promptText="Nome do Jogador 2" style="-fx-background-radius: 10; -fx-font-size: 16;">
+                <effect><DropShadow color="#00000080" /></effect>
+            </TextField>
 
             <Label text="Escolha uma Categoria:" textFill="#cccccc">
                 <padding><Insets top="20.0" /></padding>
                 <font>
-                    <Font name="System Bold" size="14.0" />
+                    <Font name="System Bold" size="16.0" />
                 </font>
+                <effect><DropShadow /></effect>
             </Label>
 
-            <Button minWidth="200.0" onAction="#onBotaoFrutas" prefHeight="35.0" style="-fx-background-radius: 10; -fx-cursor: hand; -fx-base: #ecf0f1;" text="🍎 FRUTAS">
-                <font><Font name="System Bold" size="13.0" /></font>
+            <Button minWidth="250.0" onAction="#onBotaoFrutas" prefHeight="40.0" style="-fx-background-radius: 10; -fx-cursor: hand; -fx-base: #ecf0f1; -fx-font-weight: bold; -fx-font-size: 14;" text="🍎 FRUTAS">
+                <effect><DropShadow color="#00000059" /></effect>
             </Button>
 
-            <Button minWidth="200.0" onAction="#onBotaoAnimais" prefHeight="35.0" style="-fx-background-radius: 10; -fx-cursor: hand; -fx-base: #ecf0f1;" text="🦁 ANIMAIS">
-                <font><Font name="System Bold" size="13.0" /></font>
+            <Button minWidth="250.0" onAction="#onBotaoAnimais" prefHeight="40.0" style="-fx-background-radius: 10; -fx-cursor: hand; -fx-base: #ecf0f1; -fx-font-weight: bold; -fx-font-size: 14;" text="🦁 ANIMAIS">
+                <effect><DropShadow color="#00000059" /></effect>
             </Button>
 
-            <Button minWidth="200.0" onAction="#onBotaoPaises" prefHeight="35.0" style="-fx-background-radius: 10; -fx-cursor: hand; -fx-base: #ecf0f1;" text="🌍 PAÍSES">
-                <font><Font name="System Bold" size="13.0" /></font>
+            <Button minWidth="250.0" onAction="#onBotaoPaises" prefHeight="40.0" style="-fx-background-radius: 10; -fx-cursor: hand; -fx-base: #ecf0f1; -fx-font-weight: bold; -fx-font-size: 14;" text="🌍 PAÍSES">
+                <effect><DropShadow color="#00000059" /></effect>
             </Button>
 
-            <Button minWidth="200.0" onAction="#onBotaoObjetos" prefHeight="35.0" style="-fx-background-radius: 10; -fx-cursor: hand; -fx-base: #ecf0f1;" text="📚 OBJETOS">
-                <font><Font name="System Bold" size="13.0" /></font>
+            <Button minWidth="250.0" onAction="#onBotaoObjetos" prefHeight="40.0" style="-fx-background-radius: 10; -fx-cursor: hand; -fx-base: #ecf0f1; -fx-font-weight: bold; -fx-font-size: 14;" text="📚 OBJETOS">
+                <effect><DropShadow color="#00000059" /></effect>
             </Button>
 
-            <Button minWidth="200.0" onAction="#onBotaoAleatorio" prefHeight="45.0" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-background-radius: 10; -fx-cursor: hand;" text="🎲 ALEATÓRIO">
+            <Button minWidth="250.0" onAction="#onBotaoAleatorio" prefHeight="50.0" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 16;" text="🎲 ALEATÓRIO">
                 <VBox.margin>
                     <Insets top="15.0" />
                 </VBox.margin>
-                <effect>
-                    <DropShadow color="#00000080" />
-                </effect>
+                <effect><DropShadow color="#00000099" /></effect>
             </Button>
-        </children>
-    </VBox>
 
-</VBox>
+        </VBox>
+    </children>
+</StackPane>

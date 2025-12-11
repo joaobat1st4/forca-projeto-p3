@@ -21,6 +21,10 @@ public class Jogada {
         this.letrasTentadas = new HashSet<>();
     }
 
+    public Palavra getPalavra() {
+        return palavra;
+    }
+
     // Configura tudo para começar uma partida nova
     public void iniciarNovaRodada(String categoria) {
         palavra.sortear(categoria);
