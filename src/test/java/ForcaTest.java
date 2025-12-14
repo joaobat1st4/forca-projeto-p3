@@ -41,7 +41,7 @@ public class ForcaTest {
         boolean result = jogada.tentarLetra(letraCerta);
 
         assertTrue(result, "O sistema deve retornar TRUE ao acertar uma letra");
-        assertEquals(0, jogadores.getJogador1().getErrosNaRodada(), "Não deve contar erro se acertou");
+        assertEquals(0, jogadores.getJogador1().getErrosAtuais(), "Não deve contar erro se acertou");
     }
 
     @Test
@@ -55,7 +55,7 @@ public class ForcaTest {
         boolean result = jogada.tentarLetra('1');
 
         assertFalse(result, "O sistema deve retornar FALSE ao errar");
-        assertEquals(1, jogadores.getJogador1().getErrosNaRodada(), "O contador de erros deve subir para 1");
+        assertEquals(1, jogadores.getJogador1().getErrosAtuais(), "O contador de erros deve subir para 1");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class ForcaTest {
         boolean acertou = jogada.arriscarPalavra("PALAVRA_QUE_NAO_EXISTE_XYZ");
 
         assertFalse(acertou, "Chute errado deve retornar FALSE");
-        assertEquals(1, jogadores.getJogador1().getErrosNaRodada(), "Chute errado deve contar como +1 erro");
+        assertEquals(1, jogadores.getJogador1().getErrosAtuais(), "Chute errado deve contar como +1 erro");
         assertFalse(jogada.isJogoAcabou(), "O jogo NÃO deve acabar só com um erro (a menos que seja o 6º)");
     }
 
@@ -120,7 +120,7 @@ public class ForcaTest {
         // Simula um jogador perfeito que digita todas as letras da palavra
         for (char c : secreta.toCharArray()) {
             // Só tenta se ainda não tentou essa letra (para evitar a Exceção em palavras com letras repetidas como BANANA)
-            if (!jogada.getLetrasTentadasFormatada().contains(String.valueOf(c).toUpperCase())) {
+            if (!jogada.getLetrasUsadasFormatada().contains(String.valueOf(c).toUpperCase())) {
                 jogada.tentarLetra(c);
             }
         }
