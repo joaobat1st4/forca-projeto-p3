@@ -36,3 +36,22 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# --- Arquivos de Compilação (O Lixo gerado) ---
+target/
+*.class
+
+# --- Logs e Arquivos Temporários ---
+*.log
+*.log.*
+gcm-diagnose.log
+
+# --- IntelliJ IDEA (Configurações da IDE) ---
+.idea/
+*.iml
+*.iws
+out/
+
+# --- Arquivos do Sistema Operacional (Lixo do Windows/Mac) ---
+.DS_Store
+Thumbs.db

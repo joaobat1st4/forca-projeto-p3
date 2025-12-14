@@ -1,162 +1,161 @@
 package forca.model;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Jogada {
 
-    private Palavra palavra;
+    // --- DEPENDÊNCIAS (Quem participa do jogo) ---
+    private Palavra bancoDePalavras;
     private Jogadores jogadores;
-    private char[] palavraOculta;
-    private Set<Character> letrasTentadas;
+
+    // --- ESTADO ATUAL DA PARTIDA ---
+
+    // A palavra mascarada que aparece na tela (ex: ['_', 'A', '_', 'A'])
+    private char[] palavraMascarada;
+
+    // Conjunto de letras já usadas (Set não permite repetidos!)
+    private Set<Character> letrasUsadas;
+
+    // Flags de controle
     private boolean jogoAcabou;
-    private String resultado;
+    private String mensagemResultado;
 
-    public Jogada(Jogadores jogadores, Palavra palavra) {
+    public Jogada(Jogadores jogadores, Palavra bancoDePalavras) {
         this.jogadores = jogadores;
-        this.palavra = palavra;
-        this.letrasTentadas = new HashSet<>();
+        this.bancoDePalavras = bancoDePalavras;
+        this.letrasUsadas = new HashSet<>(); // HashSet é super rápido para buscas
     }
 
-    public Palavra getPalavra() {
-        return palavra;
-    }
-
-    // Configura tudo para começar uma partida nova
+    // 1. PREPARA O TERRENO (Reset)
     public void iniciarNovaRodada(String categoria) {
-        palavra.sortear(categoria);
-        this.letrasTentadas.clear();
-        this.jogoAcabou = false;
-        this.resultado = "";
+        // Sorteia a palavra na classe Palavra
+        bancoDePalavras.sortear(categoria);
 
-        // Zera os erros apenas da rodada atual (mantém o histórico geral se quiser)
-        jogadores.getJogador1().zerarErrosDaRodada();
-        jogadores.getJogador2().zerarErrosDaRodada();
-
-        // Cria a máscara da palavra (ex: _ _ _ _)
-        this.palavraOculta = new char[palavra.getPalavraSecreta().length()];
-        for (int i = 0; i < palavraOculta.length; i++) {
-            palavraOculta[i] = '_';
+        // --- BLINDAGEM CONTRA ERRO NULL ---
+        if (bancoDePalavras.getPalavraSecreta() == null) {
+            System.err.println("Erro crítico: Palavra nula. Reiniciando sorteio.");
+            bancoDePalavras.sortear("GERAL"); // Fallback de segurança
         }
+
+        // Limpa estados anteriores
+        this.letrasUsadas.clear();
+        this.jogoAcabou = false;
+        this.mensagemResultado = "";
+
+        // Zera erros da rodada nos jogadores
+        jogadores.getJogador1().zerarErros();
+        jogadores.getJogador2().zerarErros();
+
+        // Cria a máscara: Transforma "JAVA" em ['_', '_', '_', '_']
+        String secreta = bancoDePalavras.getPalavraSecreta();
+        this.palavraMascarada = new char[secreta.length()];
+        Arrays.fill(this.palavraMascarada, '_'); // Preenche tudo com underline
     }
 
-    // Tenta uma única letra
+    // 2. A LÓGICA PRINCIPAL (Onde a mágica acontece)
     public boolean tentarLetra(char letra) throws LetraJaTentadaException {
         if (jogoAcabou) return false;
 
         letra = Character.toUpperCase(letra);
 
-        // Verifica se a letra já foi usada
-        if (letrasTentadas.contains(letra)) {
+        // Regra 1: Não pode repetir letra
+        if (letrasUsadas.contains(letra)) {
             throw new LetraJaTentadaException("A letra '" + letra + "' já foi tentada!");
         }
-
-        letrasTentadas.add(letra);
+        letrasUsadas.add(letra);
 
         boolean acertou = false;
-        String secreta = palavra.getPalavraSecreta();
+        String secreta = bancoDePalavras.getPalavraSecreta();
 
-        // Verifica se a letra existe na palavra secreta
+        // Regra 2: Varre a palavra procurando a letra
+        // Ex: Se a palavra é B A N A N A e digito A, ele preenche os índices 1, 3 e 5.
         for (int i = 0; i < secreta.length(); i++) {
             if (secreta.charAt(i) == letra) {
-                palavraOculta[i] = letra;
+                palavraMascarada[i] = letra; // Revela a letra na máscara
                 acertou = true;
             }
         }
 
         Jogador jogadorAtual = jogadores.getJogadorDaVez();
 
+        // Regra 3: Atualiza placar
         if (acertou) {
             verificarVitoria(jogadorAtual);
         } else {
-            // Se errou, adiciona erro APENAS para o jogador atual
-            jogadorAtual.adicionarErroNaRodada();
+            jogadorAtual.registrarErro();
             verificarDerrota(jogadorAtual);
         }
 
         return acertou;
     }
 
-    // Mostra letras já tentadas ao jogador
-    public String getLetrasTentadasFormatada() {
-        if (letrasTentadas.isEmpty()) {
-            return "Nenhuma";
-        }
-        // Cria uma lista para poder ordenar alfabeticamente
-        List<Character> lista = new ArrayList<>(letrasTentadas);
-        Collections.sort(lista);
-
-        // Retorna algo como "[A, B, X, Z]"
-        return lista.toString();
-    }
-
-    // Tenta chutar a palavra completa (Novo Recurso)
+    // 3. O "Tudo ou Nada" (Chutar a palavra inteira)
     public boolean arriscarPalavra(String chute) {
-        if (jogoAcabou) return false;
+        if (jogoAcabou || chute == null) return false;
 
-        String secreta = palavra.getPalavraSecreta();
+        String secreta = bancoDePalavras.getPalavraSecreta();
         Jogador jogadorAtual = jogadores.getJogadorDaVez();
 
-        // Compara ignorando maiúsculas/minúsculas
         if (chute.equalsIgnoreCase(secreta)) {
-            // Se acertou o chute, revela a palavra toda
-            this.palavraOculta = secreta.toCharArray();
-            // Dá a vitória
+            // Se acertou, revela tudo e dá vitória
+            this.palavraMascarada = secreta.toCharArray();
             this.jogoAcabou = true;
-            this.resultado = "VITÓRIA INCRÍVEL! " + jogadorAtual.getNome() + " acertou o chute!";
-            jogadorAtual.adicionarAcertoGeral();
+            this.mensagemResultado = "VITÓRIA ÉPICA! " + jogadorAtual.getNome() + " acertou o chute!";
+            jogadorAtual.registrarVitoria();
             return true;
         } else {
-            // Se errou o chute, conta como erro
-            jogadorAtual.adicionarErroNaRodada();
+            // Se errou, conta como erro no boneco
+            jogadorAtual.registrarErro();
             verificarDerrota(jogadorAtual);
             return false;
         }
     }
 
+    // --- MÉTODOS AUXILIARES (Privados para organizar o código) ---
+
     private void verificarVitoria(Jogador j) {
-        boolean completou = true;
-        for (char c : palavraOculta) {
+        // Se não tiver mais nenhum underline ('_'), ganhou!
+        boolean ganhou = true;
+        for (char c : palavraMascarada) {
             if (c == '_') {
-                completou = false;
+                ganhou = false;
                 break;
             }
         }
-        if (completou) {
+
+        if (ganhou) {
             jogoAcabou = true;
-            j.adicionarAcertoGeral();
-            resultado = "PARABÉNS! O vencedor foi: " + j.getNome();
+            j.registrarVitoria();
+            mensagemResultado = "PARABÉNS! O vencedor foi: " + j.getNome();
         }
     }
 
     private void verificarDerrota(Jogador j) {
-        if (j.getErrosNaRodada() >= 6) {
+        if (j.getErrosAtuais() >= 6) {
             jogoAcabou = true;
-            resultado = j.getNome() + " foi enforcado. FIM DE JOGO!";
+            mensagemResultado = j.getNome() + " foi enforcado. FIM DE JOGO!";
         }
     }
 
-    // Getters para a Interface
-    public boolean isJogoAcabou() {
-        return jogoAcabou;
-    }
-
-    public String getResultado() {
-        return resultado;
-    }
+    // --- GETTERS (Para a interface gráfica) ---
 
     public String getPalavraOcultaFormatada() {
+        // Transforma ['J', 'A', '_', 'A'] em "J A _ A" (com espaços)
         StringBuilder sb = new StringBuilder();
-        for (char c : palavraOculta) {
+        for (char c : palavraMascarada) {
             sb.append(c).append(" ");
         }
         return sb.toString();
     }
 
-    public Jogadores getJogadores() {
-        return jogadores;
+    public String getLetrasUsadasFormatada() {
+        if (letrasUsadas.isEmpty()) return "Nenhuma";
+        List<Character> lista = new ArrayList<>(letrasUsadas);
+        Collections.sort(lista); // Ordena alfabeticamente para ficar bonito
+        return lista.toString();
     }
+
+    public boolean isJogoAcabou() { return jogoAcabou; }
+    public String getResultado() { return mensagemResultado; }
+    public Palavra getPalavra() { return bancoDePalavras; }
 }
