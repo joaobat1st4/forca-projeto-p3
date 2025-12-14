@@ -94,5 +94,3 @@ forca-projeto-p3/
 ├── palavras.txt                                    // Banco de dados de palavras (Raiz)
 ├── pom.xml                                         // Dependências Maven
 └── README.md                                       // Documentação
----
-*Este documento foi gerado com base nas especificações do Projeto de Programação III - IFG Luziânia.*
