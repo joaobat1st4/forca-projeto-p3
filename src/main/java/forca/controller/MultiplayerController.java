@@ -15,8 +15,7 @@ import java.io.IOException;
 
 public class MultiplayerController {
 
-    // --- VARIÁVEIS DO SCENEBUILDER (VIEW) ---
-    // Não mude os nomes aqui, senão quebra o FXML!
+    // VARIÁVEIS DO SCENEBUILDER (VIEW)
 
     // Status e Paineis
     @FXML private Label lblStatusTurno;
@@ -35,7 +34,7 @@ public class MultiplayerController {
     @FXML private TextField inputLetra2;
     @FXML private ImageView imgCabeca1, imgTronco1, imgBracoE1, imgBracoD1, imgPernaE1, imgPernaD1;
 
-    // --- LÓGICA (MODEL) ---
+    // LÓGICA (MODEL)
     private Jogadores jogadores;
     private Jogada jogoP1;
     private Jogada jogoP2;
@@ -79,7 +78,7 @@ public class MultiplayerController {
         atualizarInterface(); // Primeira pintura da tela
     }
 
-    // 3. AÇÃO: CLICAR EM "TENTAR"
+    // AÇÃO: CLICAR EM "TENTAR"
     @FXML
     public void onBotaoTentar() {
         if (paneGameOver.isVisible() || paneChutar.isVisible()) return;
@@ -113,7 +112,7 @@ public class MultiplayerController {
         atualizarInterface();
     }
 
-    // 4. LÓGICA DE PASSAGEM DE TURNO
+    // LÓGICA DE PASSAGEM DE TURNO
     private void verificarProximoPasso(Jogada jogoAtual) {
         if (jogoAtual.isJogoAcabou()) {
             boolean vitoria = jogoAtual.getResultado().contains("VENCEDOR") ||
@@ -125,7 +124,7 @@ public class MultiplayerController {
         }
     }
 
-    // 5. ATUALIZAÇÃO DA TELA (Refresh)
+    // ATUALIZAÇÃO DA TELA
     private void atualizarInterface() {
         if (paneGameOver.isVisible()) return;
 
@@ -153,7 +152,7 @@ public class MultiplayerController {
         if (vezDoJ1) inputLetra.requestFocus(); else inputLetra2.requestFocus();
     }
 
-    // Método auxiliar para ligar as partes do corpo
+    // Metodo auxiliar para ligar as partes do corpo
     private void atualizarBoneco(int erros, ImageView... partes) {
         // partes[0] é cabeça, partes[1] é tronco, etc.
         partes[0].setVisible(erros >= 1);
@@ -164,7 +163,7 @@ public class MultiplayerController {
         partes[5].setVisible(erros >= 6);
     }
 
-    // --- RECURSO DE CHUTAR A PALAVRA ---
+    // RECURSO DE CHUTAR A PALAVRA
     @FXML public void onBotaoChutar() {
         paneChutar.setVisible(true);
         paneChutar.toFront();
@@ -195,7 +194,7 @@ public class MultiplayerController {
         atualizarInterface();
     }
 
-    // --- FIM DE JOGO E NAVEGAÇÃO ---
+    // FIM DE JOGO E NAVEGAÇÃO
     private void finalizarJogo(boolean vitoria, String mensagem) {
         paneGameOver.setVisible(true);
         paneGameOver.toFront();
