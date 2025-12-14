@@ -13,7 +13,7 @@ O objetivo do jogo é adivinhar uma palavra secreta através de tentativas de le
 ---
 
 ## 🛠️ Requisitos Não Funcionais (Técnicos)
-*Estas regras definem AS FERRAMENTAS que devem ser usadas. O não cumprimento pode afetar a nota.*
+*Estas regras definem AS FERRAMENTAS que devem ser usadas.
 
 1.  **Linguagem:** O código DEVE ser escrito estritamente em **Java**.
 2.  **Interface Gráfica:** O framework visual DEVE ser o **JavaFX** (preferencialmente versão 22).
@@ -45,11 +45,8 @@ O objetivo do jogo é adivinhar uma palavra secreta através de tentativas de le
 
 ---
 
-## 🎓 Critérios de Avaliação (Arguição)
-*Pontos que o professor irá verificar durante a apresentação oral.*
+## 🎓 Critérios de Avaliação
 
-* **Nota Individual:** A nota será atribuída individualmente, dependendo do domínio demonstrado sobre o código.
-* **Apresentação Obrigatória:** A nota só será atribuída mediante apresentação do software rodando.
 * **Conceitos Exigidos:** É necessário demonstrar no código o uso de:
     * Tratamento de Exceções (`Exceptions`).
     * Manipulação de Arquivos (Leitura/Escrita).
