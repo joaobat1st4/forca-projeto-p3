@@ -17,12 +17,12 @@ import java.io.IOException;
 
 public class InicioController {
 
-    // --- ELEMENTOS DA TELA (View) ---
+    // ELEMENTOS DA TELA (View)
     @FXML private TextField inputNome1;
     @FXML private TextField inputNome2;
     @FXML private CheckBox chkModoSingle; // Checkbox "Jogar Sozinho"
 
-    // --- 1. INICIALIZAÇÃO (Configura a tela antes de aparecer) ---
+    // INICIALIZAÇÃO (Configura a tela antes de aparecer)
     @FXML
     public void initialize() {
         // LISTENER: Fica "ouvindo" se o usuário marcou ou desmarcou a caixinha.
@@ -32,7 +32,7 @@ public class InicioController {
         });
     }
 
-    // Método auxiliar para travar/destravar o campo do Jogador 2
+    // Metodo auxiliar para travar/destravar o campo do Jogador 2
     private void atualizarCampos(boolean isSinglePlayer) {
         if (isSinglePlayer) {
             inputNome2.setDisable(true); // Trava o campo
@@ -44,16 +44,16 @@ public class InicioController {
         }
     }
 
-    // --- 2. AÇÕES DOS BOTÕES (Categorias) ---
+    // AÇÕES DOS BOTÕES (Categorias)
 
-    // Cada botão chama o método central passando sua categoria específica
+    // Cada botão chama o metodo central passando sua categoria específica
     @FXML public void onBotaoFrutas(ActionEvent e)   { processarEntrada(e, "FRUTAS"); }
     @FXML public void onBotaoAnimais(ActionEvent e)  { processarEntrada(e, "ANIMAIS"); }
     @FXML public void onBotaoPaises(ActionEvent e)   { processarEntrada(e, "PAISES"); }
     @FXML public void onBotaoObjetos(ActionEvent e)  { processarEntrada(e, "OBJETOS"); }
     @FXML public void onBotaoAleatorio(ActionEvent e){ processarEntrada(e, "ALEATORIO"); }
 
-    // --- 3. LÓGICA CENTRAL (O "Cérebro" da entrada) ---
+    // LÓGICA CENTRAL
 
     private void processarEntrada(ActionEvent event, String categoria) {
         try {
@@ -67,11 +67,11 @@ public class InicioController {
             mostrarAlerta("Nome Inválido", e.getMessage());
         } catch (IOException e) {
             mostrarAlerta("Erro Crítico", "Não foi possível carregar a tela do jogo.");
-            e.printStackTrace(); // Útil para você ver o erro no console
+            e.printStackTrace();
         }
     }
 
-    // --- 4. FLUXO MULTIPLAYER (2 Jogadores) ---
+    // FLUXO MULTIPLAYER
     private void iniciarMultiplayer(ActionEvent event, String categoria) throws NomeInvalidoException, IOException {
         String n1 = inputNome1.getText().trim();
         String n2 = inputNome2.getText().trim();
@@ -92,7 +92,7 @@ public class InicioController {
         trocarCena(event, root);
     }
 
-    // --- 5. FLUXO SINGLE PLAYER (1 Jogador) ---
+    // FLUXO SINGLE PLAYER
     private void iniciarSinglePlayer(ActionEvent event, String categoria) throws NomeInvalidoException, IOException {
         String n1 = inputNome1.getText().trim();
 
@@ -100,7 +100,7 @@ public class InicioController {
             throw new NomeInvalidoException("Por favor, digite seu nome!");
         }
 
-        // Carrega a tela de Single Player (assumindo que você criou esse FXML)
+        // Carrega a tela de Single Player
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/forca/single-view.fxml"));
         Parent root = loader.load();
 
@@ -111,7 +111,7 @@ public class InicioController {
         trocarCena(event, root);
     }
 
-    // --- MÉTODOS AUXILIARES (Para não repetir código) ---
+    // MÉTODOS AUXILIARES
 
     private void trocarCena(ActionEvent event, Parent root) {
         // Pega a janela atual (Stage) baseada no botão que foi clicado

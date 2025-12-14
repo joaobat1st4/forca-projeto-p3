@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class SinglePlayerController {
 
-    // --- VIEW (Elementos da Tela) ---
+    // VIEW (Elementos da Tela)
 
     // Paineis de Overlay (Fim de Jogo e Chute)
     @FXML private VBox paneGameOver;
@@ -31,11 +31,11 @@ public class SinglePlayerController {
     // Imagens do Boneco
     @FXML private ImageView imgCabeca, imgTronco, imgBracoE, imgBracoD, imgPernaE, imgPernaD;
 
-    // --- MODEL (Lógica) ---
+    // MODEL (Lógica)
     private Jogada jogo;
     private Jogadores jogadorUnico;
 
-    // 1. INICIALIZAÇÃO
+    // INICIALIZAÇÃO
     @FXML
     public void initialize() {
         // Esconde painéis extras
@@ -48,9 +48,9 @@ public class SinglePlayerController {
         });
     }
 
-    // 2. COMEÇANDO O JOGO
+    // COMEÇANDO O JOGO
     public void iniciarPartida(String nome, String categoria) {
-        // Truque: Criamos um Jogador 2 "Fantasma" (Computador) só para satisfazer a classe Jogadores
+        // Criamos um Jogador 2 "Fantasma" (Computador) só para satisfazer a classe Jogadores
         this.jogadorUnico = new Jogadores(nome, "Computador");
 
         Palavra banco = new Palavra();
@@ -66,7 +66,7 @@ public class SinglePlayerController {
         atualizarInterface();
     }
 
-    // 3. AÇÃO PRINCIPAL (TENTAR LETRA)
+    // AÇÃO PRINCIPAL (TENTAR LETRA)
     @FXML
     public void onBotaoTentar() {
         if (paneGameOver.isVisible() || paneChutar.isVisible()) return;
@@ -97,7 +97,7 @@ public class SinglePlayerController {
         atualizarInterface();
     }
 
-    // 4. ATUALIZAÇÃO VISUAL
+    // ATUALIZAÇÃO VISUAL
     private void atualizarInterface() {
         if (paneGameOver.isVisible()) return;
 
@@ -108,18 +108,18 @@ public class SinglePlayerController {
         int erros = jogadorUnico.getJogador1().getErrosAtuais();
         lblErros.setText("Erros: " + erros + "/6");
 
-        // Usa o mesmo método inteligente do Multiplayer para ligar as imagens
+        // Usa o mesmo metodo inteligente do Multiplayer para ligar as imagens
         atualizarBoneco(erros, imgCabeca, imgTronco, imgBracoE, imgBracoD, imgPernaE, imgPernaD);
     }
 
-    // Método auxiliar para evitar 6 IFs
+    // Metodo auxiliar para evitar 6 IFs
     private void atualizarBoneco(int erros, ImageView... partes) {
         for (int i = 0; i < partes.length; i++) {
             partes[i].setVisible(erros > i);
         }
     }
 
-    // 5. LÓGICA DE FIM DE JOGO
+    // LÓGICA DE FIM DE JOGO
     private void verificarFimDeJogo() {
         if (jogo.isJogoAcabou()) {
             boolean vitoria = jogo.getResultado().contains("PARABÉNS") ||
@@ -142,7 +142,7 @@ public class SinglePlayerController {
         lblPalavraFinal.setText("A palavra era: " + jogo.getPalavra().getPalavraSecreta());
     }
 
-    // --- CHUTAR A PALAVRA ---
+    // CHUTAR A PALAVRA
     @FXML public void onBotaoChutar() {
         paneChutar.setVisible(true);
         paneChutar.toFront();
@@ -167,7 +167,7 @@ public class SinglePlayerController {
         atualizarInterface();
     }
 
-    // --- NAVEGAÇÃO ---
+    // NAVEGAÇÃO
     @FXML
     public void onBotaoVoltarMenu() {
         try {
