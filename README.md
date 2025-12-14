@@ -13,7 +13,7 @@ O objetivo do jogo é adivinhar uma palavra secreta através de tentativas de le
 ---
 
 ## 🛠️ Requisitos Não Funcionais (Técnicos)
-*Estas regras definem AS FERRAMENTAS que devem ser usadas.
+*Estas regras definem AS FERRAMENTAS que devem ser usadas.*
 
 1.  **Linguagem:** O código DEVE ser escrito estritamente em **Java**.
 2.  **Interface Gráfica:** O framework visual DEVE ser o **JavaFX** (preferencialmente versão 22).
