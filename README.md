@@ -1,8 +1,8 @@
 # 📚 Projeto: Jogo da Forca (Programação III)
 
-**Instituto Federal de Goiás (IFG) - Campus Luziânia** **Curso:** Bacharelado em Sistemas de Informação  
-**Professor:** Lucas de Almeida Ribeiro  
-**Data de Referência:** 14 de outubro de 2025  
+**Instituto Federal de Goiás (IFG) - Campus Luziânia**
+**Curso:** Bacharelado em Sistemas de Informação
+**Professor:** Lucas de Almeida Ribeiro
 
 ---
 
@@ -27,20 +27,21 @@ O objetivo do jogo é adivinhar uma palavra secreta através de tentativas de le
 
 ---
 
-## 📋 Requisitos Funcionais (O que o sistema deve fazer)
-*Funcionalidades obrigatórias que precisam estar rodando na apresentação.*
+## 📋 Requisitos Funcionais Implementados
+*Funcionalidades presentes na aplicação:*
 
-1.  **Cadastro Inicial:** No início do jogo, deve ser possível inserir o **nome dos jogadores**.
-2.  **Sistema de Turnos:** O jogo deve gerenciar turnos **alternados** entre os jogadores (competindo para resolver palavras diferentes).
-3.  **Banco de Palavras:** As palavras devem ser organizadas por **categorias** (ex: Frutas, Países, Animais, etc.).
+1.  **Cadastro Inicial:** Inserção dos nomes dos jogadores antes da partida.
+2.  **Sistema de Turnos:** Gerenciamento de turnos alternados no modo Multiplayer.
+3.  **Banco de Palavras:** Leitura de arquivo externo (`palavras.txt`) organizado por categorias (Frutas, Países, Animais, Objetos).
 4.  **Interface Visual Completa:**
-    * Mostrar as **letras já tentadas**.
-    * Mostrar a **palavra oculta** representada por traços.
-    * Desenhar o **boneco da forca** progressivamente em diferentes estágios de erro.
-5.  **Placar:** Deve haver um contador de **erros e acertos** individual por jogador.
-6.  **Tratamento de Erros:** Implementar tratamento de exceções (`try-catch`) para:
-    * Entradas inválidas do usuário.
-    * Arquivos não encontrados (leitura do banco de palavras).
+    * Exibição das letras já tentadas.
+    * Palavra oculta representada por traços.
+    * Desenho progressivo do boneco da forca a cada erro.
+5.  **Placar:** Contador de erros (limite de 6) e feedback de vitória/derrota.
+6.  **Tratamento de Exceções:**
+    * `NomeInvalidoException`: Para validação de cadastro.
+    * `LetraJaTentadaException`: Para evitar tentativas repetidas.
+    * Tratamento de leitura de arquivos.
 
 ---
 
@@ -59,56 +60,39 @@ O objetivo do jogo é adivinhar uma palavra secreta através de tentativas de le
 
 ---
 
-## ⭐ Funcionalidades Bônus (Extras)
-*Implementações opcionais que podem valorizar a nota.*
-
-* [ ] **Single Player:** Modo contra o computador com níveis de dificuldade.
-* [ ] **Dicas:** Sistema de dicas limitadas durante a partida.
-* [ ] **Animações:** Efeitos visuais na interface.
-* [ ] **Temas:** Possibilidade do usuário selecionar diferentes temas visuais (skins/cores).
-
----
-
-## 🚀 Guia de Implementação (Sugestão baseada no PDF)
-
-### 1. Model (Lógica)
-* **`Palavra.java`**: Ler o arquivo de texto, separar por categoria, sortear palavra.
-* **`Jogadores.java`**: Guardar nomes, controlar de quem é a vez, contar pontos.
-* **`Jogada.java`**: Verificar se a letra existe na palavra, atualizar estado do boneco.
-
-### 2. View (Interface)
-* Arquivos `.fxml` (Tela de Início e Tela de Jogo).
-* Uso de CSS para o "Tema bem definido".
-
-### 3. Controller (Conexão)
-* **`Controlador.java`**: Receber os cliques dos botões, chamar a `Jogada`, atualizar a tela (boneco/texto).
-
 ## 🏗️ Estrutura de Arquivos (MVC)
-*Organização recomendada para atender ao requisito de separação de classes.*
+*Organização atual dos arquivos no repositório:*
 
 ```text
-Projeto-Forca/
+forca-projeto-p3/
 ├── src/
-│   └── main/
-│       ├── java/forca/
-│       │   ├── 📦 controller
-│       │   │   ├── InicioController.java   // Controla o menu inicial
-│       │   │   └── JogoController.java     // Controla a partida e o boneco
-│       │   ├── 📦 model
-│       │   │   ├── Jogada.java             // Lógica de acerto/erro
-│       │   │   ├── Jogador.java            // Dados (nome, erros)
-│       │   │   ├── Jogadores.java          // Gerencia a dupla e o turno
-│       │   │   ├── Palavra.java            // Sorteio e leitura do arquivo
-│       │   │   ├── LetraJaTentadaException.java
-│       │   │   └── NomeInvalidoException.java
-│       │   └── ForcaApp.java               // Classe principal (Start)
-│       └── resources/forca/
-│           ├── 📂 images                   // Imagens (Fundo, Boneco, Forca)
-│           ├── inicio-view.fxml            // Tela de Login
-│           └── jogo-view.fxml              // Tela do Jogo
-├── palavras.txt                            // Banco de palavras (Na raiz)
-├── pom.xml                                 // Dependências Maven
-└── README.md
-
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── forca/
+│   │   │       ├── 📦 controller
+│   │   │       │   ├── InicioController.java       // Lógica do Menu Principal
+│   │   │       │   ├── MultiplayerController.java  // Lógica do Modo 2 Jogadores
+│   │   │       │   └── SinglePlayerController.java // Lógica do Modo 1 Jogador
+│   │   │       ├── 📦 model
+│   │   │       │   ├── Jogada.java                 // Regras de negócio da rodada
+│   │   │       │   ├── Jogador.java                // Objeto Jogador (nome, erros)
+│   │   │       │   ├── Jogadores.java              // Gerenciamento da dupla/turno
+│   │   │       │   ├── Palavra.java                // Manipulação do banco de palavras
+│   │   │       │   ├── LetraJaTentadaException.java
+│   │   │       │   └── NomeInvalidoException.java
+│   │   │       ├── ForcaApp.java                   // Classe Application (JavaFX)
+│   │   │       └── Launcher.java                   // Classe Inicializadora (Main)
+│   │   └── resources/
+│   │       └── forca/
+│   │           ├── 📂 images                       // Assets (Fundo, Boneco, Ícones)
+│   │           ├── inicio-view.fxml                // Tela de Menu
+│   │           ├── multiplayer-view.fxml           // Tela de Jogo (2 Jogadores)
+│   │           └── single-view.fxml                // Tela de Jogo (1 Jogador)
+│   └── test/
+│       └── java/
+│           └── ForcaTest.java                      // Testes Unitários
+├── palavras.txt                                    // Banco de dados de palavras (Raiz)
+├── pom.xml                                         // Dependências Maven
+└── README.md                                       // Documentação
 ---
 *Este documento foi gerado com base nas especificações do Projeto de Programação III - IFG Luziânia.*
