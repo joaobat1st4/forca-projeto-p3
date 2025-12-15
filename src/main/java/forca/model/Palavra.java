@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Palavra {
 
-    // MAPA: Funciona como gavetas.
+    // MAP: Funciona como gavetas.
     // A etiqueta da gaveta é a Categoria (String).
     // Dentro da gaveta tem uma Lista de palavras (List<String>).
     private Map<String, List<String>> bancoDePalavras;
@@ -25,17 +25,17 @@ public class Palavra {
         carregarDoArquivo();
 
         // SEGURANÇA: Se o arquivo der erro ou estiver vazio, carregamos palavras na memória
-        // Isso garante que o jogo nunca abra "quebrado" para o professor.
+        // Isso garante que o jogo nunca abra "quebrado".
         if (bancoDePalavras.isEmpty()) {
             carregarPalavrasDeEmergencia();
         }
     }
 
-    // 1. Tenta ler o arquivo 'palavras.txt' linha por linha
+    // Tenta ler o arquivo 'palavras.txt' linha por linha
     private void carregarDoArquivo() {
         File arquivo = new File("palavras.txt");
 
-        // Se o arquivo não existe, sai do método e deixa o backup atuar
+        // Se o arquivo não existe, sai do metodo e deixa o backup atuar
         if (!arquivo.exists()) return;
 
         try (BufferedReader leitor = new BufferedReader(new FileReader(arquivo))) {
@@ -57,14 +57,14 @@ public class Palavra {
         }
     }
 
-    // 2. Palavras de Backup (Hardcoded) para caso o arquivo falhe
+    // Palavras de Backup para caso o arquivo falhe
     private void carregarPalavrasDeEmergencia() {
         adicionarAoBanco("GERAL", "COMPUTADOR");
         adicionarAoBanco("GERAL", "JAVA");
         adicionarAoBanco("FRUTAS", "BANANA");
     }
 
-    // Método auxiliar para evitar repetição de código no Map
+    // Metodo auxiliar para evitar repetição de código no Map
     private void adicionarAoBanco(String categoria, String palavra) {
         // Se a gaveta (categoria) ainda não existe, cria uma lista vazia para ela
         bancoDePalavras.putIfAbsent(categoria, new ArrayList<>());
@@ -72,7 +72,7 @@ public class Palavra {
         bancoDePalavras.get(categoria).add(palavra);
     }
 
-    // 3. Escolhe uma palavra baseada na categoria
+    // Escolhe uma palavra baseada na categoria
     public void sortear(String categoria) {
         categoria = (categoria == null) ? "GERAL" : categoria.toUpperCase();
 
@@ -91,11 +91,11 @@ public class Palavra {
         this.categoriaAtual = categoria;
     }
 
-    // 4. Sorteia uma categoria qualquer (usado no botão "Aleatório")
+    // Sorteia uma categoria qualquer (usado no botão "Aleatório")
     public String getCategoriaAleatoria() {
         if (bancoDePalavras.isEmpty()) return "GERAL";
 
-        // Transforma as chaves do mapa (as categorias) em uma lista para poder sortear
+        // Transforma as chaves do map (as categorias) em uma lista para poder sortear
         List<String> categorias = new ArrayList<>(bancoDePalavras.keySet());
         return categorias.get(random.nextInt(categorias.size()));
     }

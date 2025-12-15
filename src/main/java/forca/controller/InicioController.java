@@ -18,9 +18,12 @@ import java.io.IOException;
 public class InicioController {
 
     // ELEMENTOS DA TELA (View)
-    @FXML private TextField inputNome1;
-    @FXML private TextField inputNome2;
-    @FXML private CheckBox chkModoSingle; // Checkbox "Jogar Sozinho"
+    @FXML
+    private TextField inputNome1;
+    @FXML
+    private TextField inputNome2;
+    @FXML
+    private CheckBox chkModoSingle; // Checkbox modo Single
 
     // INICIALIZAÇÃO (Configura a tela antes de aparecer)
     @FXML
@@ -47,11 +50,30 @@ public class InicioController {
     // AÇÕES DOS BOTÕES (Categorias)
 
     // Cada botão chama o metodo central passando sua categoria específica
-    @FXML public void onBotaoFrutas(ActionEvent e)   { processarEntrada(e, "FRUTAS"); }
-    @FXML public void onBotaoAnimais(ActionEvent e)  { processarEntrada(e, "ANIMAIS"); }
-    @FXML public void onBotaoPaises(ActionEvent e)   { processarEntrada(e, "PAISES"); }
-    @FXML public void onBotaoObjetos(ActionEvent e)  { processarEntrada(e, "OBJETOS"); }
-    @FXML public void onBotaoAleatorio(ActionEvent e){ processarEntrada(e, "ALEATORIO"); }
+    @FXML
+    public void onBotaoFrutas(ActionEvent e) {
+        processarEntrada(e, "FRUTAS");
+    }
+
+    @FXML
+    public void onBotaoAnimais(ActionEvent e) {
+        processarEntrada(e, "ANIMAIS");
+    }
+
+    @FXML
+    public void onBotaoPaises(ActionEvent e) {
+        processarEntrada(e, "PAISES");
+    }
+
+    @FXML
+    public void onBotaoObjetos(ActionEvent e) {
+        processarEntrada(e, "OBJETOS");
+    }
+
+    @FXML
+    public void onBotaoAleatorio(ActionEvent e) {
+        processarEntrada(e, "ALEATORIO");
+    }
 
     // LÓGICA CENTRAL
 

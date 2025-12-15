@@ -19,17 +19,24 @@ public class SinglePlayerController {
     // VIEW (Elementos da Tela)
 
     // Paineis de Overlay (Fim de Jogo e Chute)
-    @FXML private VBox paneGameOver;
-    @FXML private Label lblResultadoGame, lblPalavraFinal;
-    @FXML private VBox paneChutar;
-    @FXML private TextField inputChute;
+    @FXML
+    private VBox paneGameOver;
+    @FXML
+    private Label lblResultadoGame, lblPalavraFinal;
+    @FXML
+    private VBox paneChutar;
+    @FXML
+    private TextField inputChute;
 
     // Elementos do Jogador
-    @FXML private Label lblNomeJogador, lblCategoria, lblPalavraOculta, lblErros, lblMensagem, lblTentativas;
-    @FXML private TextField inputLetra;
+    @FXML
+    private Label lblNomeJogador, lblCategoria, lblPalavraOculta, lblErros, lblMensagem, lblTentativas;
+    @FXML
+    private TextField inputLetra;
 
     // Imagens do Boneco
-    @FXML private ImageView imgCabeca, imgTronco, imgBracoE, imgBracoD, imgPernaE, imgPernaD;
+    @FXML
+    private ImageView imgCabeca, imgTronco, imgBracoE, imgBracoD, imgPernaE, imgPernaD;
 
     // MODEL (Lógica)
     private Jogada jogo;
@@ -112,13 +119,6 @@ public class SinglePlayerController {
         atualizarBoneco(erros, imgCabeca, imgTronco, imgBracoE, imgBracoD, imgPernaE, imgPernaD);
     }
 
-    // Metodo auxiliar para evitar 6 IFs
-    private void atualizarBoneco(int erros, ImageView... partes) {
-        for (int i = 0; i < partes.length; i++) {
-            partes[i].setVisible(erros > i);
-        }
-    }
-
     // LÓGICA DE FIM DE JOGO
     private void verificarFimDeJogo() {
         if (jogo.isJogoAcabou()) {
@@ -126,6 +126,43 @@ public class SinglePlayerController {
                     jogo.getResultado().contains("VITÓRIA");
             finalizarJogo(vitoria);
         }
+    }
+
+    // Metodo auxiliar para evitar 6 IFs
+    private void atualizarBoneco(int erros, ImageView... partes) {
+        for (int i = 0; i < partes.length; i++) {
+            partes[i].setVisible(erros > i);
+        }
+    }
+
+    // CHUTAR A PALAVRA
+    @FXML
+    public void onBotaoChutar() {
+        paneChutar.setVisible(true);
+        paneChutar.toFront();
+        inputChute.requestFocus();
+    }
+
+    @FXML
+    public void onCancelarChute() {
+        paneChutar.setVisible(false);
+    }
+
+    @FXML
+    public void onConfirmarChute() {
+        String chute = inputChute.getText();
+        if (chute.isEmpty()) return;
+        paneChutar.setVisible(false);
+
+        boolean acertou = jogo.arriscarPalavra(chute);
+        if (acertou) {
+            finalizarJogo(true);
+        } else {
+            lblMensagem.setText("Chute Errado! +1 Erro");
+            lblMensagem.setStyle("-fx-text-fill: red;");
+            verificarFimDeJogo();
+        }
+        atualizarInterface();
     }
 
     private void finalizarJogo(boolean vitoria) {
@@ -142,31 +179,6 @@ public class SinglePlayerController {
         lblPalavraFinal.setText("A palavra era: " + jogo.getPalavra().getPalavraSecreta());
     }
 
-    // CHUTAR A PALAVRA
-    @FXML public void onBotaoChutar() {
-        paneChutar.setVisible(true);
-        paneChutar.toFront();
-        inputChute.requestFocus();
-    }
-
-    @FXML public void onCancelarChute() { paneChutar.setVisible(false); }
-
-    @FXML public void onConfirmarChute() {
-        String chute = inputChute.getText();
-        if (chute.isEmpty()) return;
-        paneChutar.setVisible(false);
-
-        boolean acertou = jogo.arriscarPalavra(chute);
-        if (acertou) {
-            finalizarJogo(true);
-        } else {
-            lblMensagem.setText("Chute Errado! +1 Erro");
-            lblMensagem.setStyle("-fx-text-fill: red;");
-            verificarFimDeJogo();
-        }
-        atualizarInterface();
-    }
-
     // NAVEGAÇÃO
     @FXML
     public void onBotaoVoltarMenu() {
@@ -180,5 +192,9 @@ public class SinglePlayerController {
         }
     }
 
-    @FXML public void onBotaoSair() { Platform.exit(); System.exit(0); }
+    @FXML
+    public void onBotaoSair() {
+        Platform.exit();
+        System.exit(0);
+    }
 }

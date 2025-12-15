@@ -4,11 +4,11 @@ import java.util.*;
 
 public class Jogada {
 
-    // --- DEPENDÊNCIAS (Quem participa do jogo) ---
+    // DEPENDÊNCIAS (Quem participa do jogo)
     private Palavra bancoDePalavras;
     private Jogadores jogadores;
 
-    // --- ESTADO ATUAL DA PARTIDA ---
+    // ESTADO ATUAL DA PARTIDA
 
     // A palavra mascarada que aparece na tela (ex: ['_', 'A', '_', 'A'])
     private char[] palavraMascarada;
@@ -16,7 +16,7 @@ public class Jogada {
     // Conjunto de letras já usadas (Set não permite repetidos!)
     private Set<Character> letrasUsadas;
 
-    // Flags de controle
+    // Atributos de controle
     private boolean jogoAcabou;
     private String mensagemResultado;
 
@@ -26,12 +26,12 @@ public class Jogada {
         this.letrasUsadas = new HashSet<>(); // HashSet é super rápido para buscas
     }
 
-    // 1. PREPARA O TERRENO (Reset)
+    // PREPARA O TERRENO (Reset)
     public void iniciarNovaRodada(String categoria) {
         // Sorteia a palavra na classe Palavra
         bancoDePalavras.sortear(categoria);
 
-        // --- BLINDAGEM CONTRA ERRO NULL ---
+        // BLINDAGEM CONTRA ERRO NULL
         if (bancoDePalavras.getPalavraSecreta() == null) {
             System.err.println("Erro crítico: Palavra nula. Reiniciando sorteio.");
             bancoDePalavras.sortear("GERAL"); // Fallback de segurança
@@ -52,7 +52,7 @@ public class Jogada {
         Arrays.fill(this.palavraMascarada, '_'); // Preenche tudo com underline
     }
 
-    // 2. A LÓGICA PRINCIPAL (Onde a mágica acontece)
+    // A LÓGICA PRINCIPAL
     public boolean tentarLetra(char letra) throws LetraJaTentadaException {
         if (jogoAcabou) return false;
 
@@ -89,7 +89,7 @@ public class Jogada {
         return acertou;
     }
 
-    // 3. O "Tudo ou Nada" (Chutar a palavra inteira)
+    // CHUTAR A PALAVRA INTEIRA
     public boolean arriscarPalavra(String chute) {
         if (jogoAcabou || chute == null) return false;
 
@@ -111,7 +111,7 @@ public class Jogada {
         }
     }
 
-    // --- MÉTODOS AUXILIARES (Privados para organizar o código) ---
+    // MÉTODOS AUXILIARES (Privados para organizar o código)
 
     private void verificarVitoria(Jogador j) {
         // Se não tiver mais nenhum underline ('_'), ganhou!
@@ -137,7 +137,7 @@ public class Jogada {
         }
     }
 
-    // --- GETTERS (Para a interface gráfica) ---
+    // GETTERS (Para a interface gráfica)
 
     public String getPalavraOcultaFormatada() {
         // Transforma ['J', 'A', '_', 'A'] em "J A _ A" (com espaços)
@@ -151,11 +151,19 @@ public class Jogada {
     public String getLetrasUsadasFormatada() {
         if (letrasUsadas.isEmpty()) return "Nenhuma";
         List<Character> lista = new ArrayList<>(letrasUsadas);
-        Collections.sort(lista); // Ordena alfabeticamente para ficar bonito
+        Collections.sort(lista); // Ordena alfabeticamente para ficar mais organizado
         return lista.toString();
     }
 
-    public boolean isJogoAcabou() { return jogoAcabou; }
-    public String getResultado() { return mensagemResultado; }
-    public Palavra getPalavra() { return bancoDePalavras; }
+    public boolean isJogoAcabou() {
+        return jogoAcabou;
+    }
+
+    public String getResultado() {
+        return mensagemResultado;
+    }
+
+    public Palavra getPalavra() {
+        return bancoDePalavras;
+    }
 }

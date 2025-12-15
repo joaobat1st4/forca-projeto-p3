@@ -2,7 +2,7 @@ package forca.model;
 
 public class Jogadores {
 
-    // Guarda os dois objetos criados (Player 1 e Player 2)
+    // Guarda os dois objetos criados (Jogador1 e Jogador2)
     private Jogador jogador1;
     private Jogador jogador2;
 
@@ -27,7 +27,7 @@ public class Jogadores {
         }
     }
 
-    // --- GETTERS (Para o Controller saber quem desenhar na tela) ---
+    // GETTERS (para o Controller saber quem desenhar na tela)
 
     public Jogador getJogadorDaVez() {
         return jogadorDaVez;

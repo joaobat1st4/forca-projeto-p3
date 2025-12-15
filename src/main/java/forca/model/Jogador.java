@@ -2,7 +2,7 @@ package forca.model;
 
 public class Jogador {
 
-    // --- ATRIBUTOS (O que o jogador TEM) ---
+    // ATRIBUTOS (o que o jogador tem)
     private String nome;
 
     // Placar geral (não zera quando começa nova rodada)
@@ -18,7 +18,7 @@ public class Jogador {
         this.errosAtuais = 0;
     }
 
-    // --- MÉTODOS DE AÇÃO (O que acontece com o jogador) ---
+    // MÉTODOS DE AÇÃO (o que acontece com o jogador)
 
     // Chamado quando o jogador erra uma letra ou chuta errado
     public void registrarErro() {
@@ -35,7 +35,7 @@ public class Jogador {
         this.totalVitorias++;
     }
 
-    // --- GETTERS (Para a tela pegar os dados e mostrar) ---
+    // GETTERS (Para a tela pegar os dados e mostrar)
 
     public String getNome() {
         return nome;

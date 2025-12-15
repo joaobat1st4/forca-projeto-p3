@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class MultiplayerController {
@@ -18,21 +19,32 @@ public class MultiplayerController {
     // VARIÁVEIS DO SCENEBUILDER (VIEW)
 
     // Status e Paineis
-    @FXML private Label lblStatusTurno;
-    @FXML private VBox paneGameOver;
-    @FXML private Label lblResultadoGame, lblSubtituloGame, lblPalavraFinal;
-    @FXML private VBox paneChutar;
-    @FXML private TextField inputChute;
+    @FXML
+    private Label lblStatusTurno;
+    @FXML
+    private VBox paneGameOver;
+    @FXML
+    private Label lblResultadoGame, lblSubtituloGame, lblPalavraFinal;
+    @FXML
+    private VBox paneChutar;
+    @FXML
+    private TextField inputChute;
 
     // Elementos do Jogador 1 (Esquerda)
-    @FXML private Label lblNomeJogador, lblCategoria, lblPalavraOculta, lblErros, lblMensagem, lblTentativas;
-    @FXML private TextField inputLetra;
-    @FXML private ImageView imgCabeca, imgTronco, imgBracoE, imgBracoD, imgPernaE, imgPernaD;
+    @FXML
+    private Label lblNomeJogador, lblCategoria, lblPalavraOculta, lblErros, lblMensagem, lblTentativas;
+    @FXML
+    private TextField inputLetra;
+    @FXML
+    private ImageView imgCabeca, imgTronco, imgBracoE, imgBracoD, imgPernaE, imgPernaD;
 
     // Elementos do Jogador 2 (Direita)
-    @FXML private Label lblNomeJogador1, lblCategoria1, lblPalavraOculta1, lblErros1, lblMensagem2, lblTentativas1;
-    @FXML private TextField inputLetra2;
-    @FXML private ImageView imgCabeca1, imgTronco1, imgBracoE1, imgBracoD1, imgPernaE1, imgPernaD1;
+    @FXML
+    private Label lblNomeJogador1, lblCategoria1, lblPalavraOculta1, lblErros1, lblMensagem2, lblTentativas1;
+    @FXML
+    private TextField inputLetra2;
+    @FXML
+    private ImageView imgCabeca1, imgTronco1, imgBracoE1, imgBracoD1, imgPernaE1, imgPernaD1;
 
     // LÓGICA (MODEL)
     private Jogadores jogadores;
@@ -57,7 +69,7 @@ public class MultiplayerController {
         });
     }
 
-    // 2. CONFIGURAÇÃO DA PARTIDA (Chamado pela tela anterior)
+    // CONFIGURAÇÃO DA PARTIDA (Chamado pela tela anterior)
     public void configurarPartida(Jogadores jogadores, String categoria) {
         this.jogadores = jogadores;
 
@@ -149,7 +161,8 @@ public class MultiplayerController {
         inputLetra2.setDisable(vezDoJ1);
 
         // Foca no campo certo
-        if (vezDoJ1) inputLetra.requestFocus(); else inputLetra2.requestFocus();
+        if (vezDoJ1) inputLetra.requestFocus();
+        else inputLetra2.requestFocus();
     }
 
     // Metodo auxiliar para ligar as partes do corpo
@@ -164,15 +177,20 @@ public class MultiplayerController {
     }
 
     // RECURSO DE CHUTAR A PALAVRA
-    @FXML public void onBotaoChutar() {
+    @FXML
+    public void onBotaoChutar() {
         paneChutar.setVisible(true);
         paneChutar.toFront();
         inputChute.requestFocus();
     }
 
-    @FXML public void onCancelarChute() { paneChutar.setVisible(false); }
+    @FXML
+    public void onCancelarChute() {
+        paneChutar.setVisible(false);
+    }
 
-    @FXML public void onConfirmarChute() {
+    @FXML
+    public void onConfirmarChute() {
         String chute = inputChute.getText();
         if (chute.isEmpty()) return;
         paneChutar.setVisible(false);
@@ -218,7 +236,8 @@ public class MultiplayerController {
         }
     }
 
-    @FXML public void onBotaoSair() {
+    @FXML
+    public void onBotaoSair() {
         Platform.exit();
         System.exit(0);
     }
